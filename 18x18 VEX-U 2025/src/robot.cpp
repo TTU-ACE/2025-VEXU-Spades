@@ -3,7 +3,7 @@
 #include "robot-config.hpp"
 
 Robot::Robot() {
-    // Initialize robot components
+    // Initialize robot components if needed
     // backLeftMotor = pros::Motor(BACK_LEFT_ID);
     // backRightMotor = pros::Motor(BACK_RIGHT_ID);
     // frontLeftMotor = pros::Motor(FRONT_LEFT_ID);
