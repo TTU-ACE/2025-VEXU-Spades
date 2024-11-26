@@ -26,6 +26,9 @@ public:
     void lowerLift(double speed);
     void stopLift();
 
+    // Utility functions
+    float getMaxMotorRPM(pros::Motor motor);
+
 private:
     // Private members if needed
     pros::Motor backLeftMotor;
