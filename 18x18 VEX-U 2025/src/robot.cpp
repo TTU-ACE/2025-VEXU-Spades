@@ -4,22 +4,37 @@
 
 Robot::Robot() {
     // Initialize robot components if needed
-    // backLeftMotor = pros::Motor(BACK_LEFT_ID);
-    // backRightMotor = pros::Motor(BACK_RIGHT_ID);
-    // frontLeftMotor = pros::Motor(FRONT_LEFT_ID);
-    // frontRightMotor = pros::Motor(FRONT_RIGHT_ID);
-    // intakeMotor = pros::Motor(INTAKE_ID);
-    // clampMotor = pros::Motor(CLAMP_ID);
-    // conveyorMotor = pros::Motor(CONVEYOR_LEFT_ID);
-    // liftMotor = pros::Motor(LIFT_LEFT_ID);
+    // backLeftMotor = pros::Motor(BACK_LEFT_MOTOR);
+    // backRightMotor = pros::Motor(BACK_RIGHT_MOTOR);
+    // frontLeftMotor = pros::Motor(FRONT_LEFT_MOTOR);
+    // frontRightMotor = pros::Motor(FRONT_RIGHT_MOTOR);
+
+    // intakeMotor = pros::Motor(INTAKE_MOTOR);
+    // clampMotor = pros::Motor(CLAMP_MOTOR);
+
+    // leftConveyorMotor = pros::Motor(CONVEYOR_LEFT_MOTOR);
+    // rightConveyorMotor = pros::Motor(CONVEYOR_RIGHT_MOTOR);
+
+    // leftLiftMotor = pros::Motor(LIFT_LEFT_MOTOR);
+    // rightLiftMotor = pros::Motor(LIFT_RIGHT_MOTOR);
+
+    //motor groups
+    // leftBase = pros::MotorGroup(frontLeftMotor, backLeftMotor);
+    // rightBase = pros::MotorGroup(frontRightMotor,backRightMotor);
+
+    // conveyor = pros::MotorGroup(leftConveyorMotor, rightConveyorMotor);
+    // lift = pros::MotorGroup(leftLiftMotor, rightLiftMotor);
 }
 
 // Implementation for tank drive with RPM values
 void Robot::tankDrive(double leftSpeed_rpm, double rightSpeed_rpm) {
-    backLeftMotor.move_velocity(leftSpeed_rpm);
-    frontLeftMotor.move_velocity(leftSpeed_rpm);
-    backRightMotor.move_velocity(rightSpeed_rpm);
-    frontRightMotor.move_velocity(rightSpeed_rpm);
+    // backLeftMotor.move_velocity(leftSpeed_rpm);
+    // frontLeftMotor.move_velocity(leftSpeed_rpm);
+    // backRightMotor.move_velocity(rightSpeed_rpm);
+    // frontRightMotor.move_velocity(rightSpeed_rpm);
+
+    leftBase.move_velocity(leftSpeed_rpm);
+    rightBase.move_velocity(rightSpeed_rpm);
 }
 
 void Robot::arcadeDrive(double forwardSpeed_rpm, double turnSpeed_rpm) {
@@ -39,27 +54,46 @@ void Robot::arcadeDrive(double forwardSpeed_rpm, double turnSpeed_rpm) {
     }
 
     // Set motor speeds for left and right sides in RPM
-    backLeftMotor.move_velocity(leftSpeed_rpm);
-    frontLeftMotor.move_velocity(leftSpeed_rpm);
-    backRightMotor.move_velocity(rightSpeed_rpm);
-    frontRightMotor.move_velocity(rightSpeed_rpm);
+    // backLeftMotor.move_velocity(leftSpeed_rpm);
+    // frontLeftMotor.move_velocity(leftSpeed_rpm);
+    // backRightMotor.move_velocity(rightSpeed_rpm);
+    // frontRightMotor.move_velocity(rightSpeed_rpm);
+
+    leftBase.move_velocity(leftSpeed_rpm);
+    rightBase.move_velocity(rightSpeed_rpm);
 }
 
 // Implementation for setting intake speed
 void Robot::setIntakeSpeed(double speed) {
-    
+    //set intake at speed
+    intakeMotor.move_velocity(speed);
 }
 
-void Robot::clamp() {
-    
+void Robot::clamp(double clamped_position, double speed) {
+    //get encoder value
+    double position = clampMotor.get_position();
+
+    //checks if current position equals desired position
+    if (position != clamped_position) {
+        //move to position based on absolute location
+        clampMotor.move_absolute(clamped_position, speed);
+    }
 }
 
-void Robot::unclamp() {
-    
+void Robot::unclamp(double unclamped_position, double speed) {
+    //get encoder value
+    double position = clampMotor.get_position();
+
+    //checks if current position equals desired position
+    if (position != unclamped_position) {
+        //move to position based on absolute location
+        clampMotor.move_absolute(unclamped_position, speed);
+    }
 }
 
 void Robot::setConveyorSpeed(double speed) {
-    
+    //set conveyor at speed
+    conveyor.move_velocity(speed);
 }
 
 void Robot::raiseLift(double speed) {
