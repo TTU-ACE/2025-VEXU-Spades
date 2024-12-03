@@ -15,8 +15,8 @@ public:
     void setIntakeSpeed(double speed);
 
     // Clamping mechanism functions
-    void clamp();
-    void unclamp();
+    void clamp(double clamped_position, double speed);
+    void unclamp(double unclamped_position, double speed);
 
     // Conveyor functions
     void setConveyorSpeed(double speed);
@@ -37,5 +37,13 @@ private:
     pros::Motor frontRightMotor;
     pros::Motor intakeMotor;
     pros::Motor clampMotor;
-    pros::Motor conveyorMotor;
+    pros::Motor leftConveyorMotor;
+    pros::Motor rightConveyorMotor;
+    pros::Motor leftLiftMotor;
+    pros::Motor rightLiftMotor;
+
+    pros::MotorGroup leftBase;
+    pros::MotorGroup rightBase;
+    pros::MotorGroup conveyor;
+    pros::MotorGroup lift;
 };
