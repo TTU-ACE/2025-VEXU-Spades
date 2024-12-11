@@ -2,6 +2,7 @@
 #pragma once
 #include "robot-config.hpp"
 #include "api.h"
+#include "lemlib/api.hpp" // IWYU pragma: keep
 
 class Robot {
 public:
@@ -30,12 +31,15 @@ public:
     float getMaxMotorRPM(pros::Motor motor);
 
 private:
-    // Private members if needed
+    // drive base and path following
+    pros::MotorGroup leftBase;
+    pros::MotorGroup rightBase;
+    lemlib::Drivetrain drivetrain;
+    lemlib::Chassis chassis;
+
     pros::Motor intakeMotor;
     pros::Motor clampMotor;
 
-    pros::MotorGroup leftBase;
-    pros::MotorGroup rightBase;
     pros::MotorGroup conveyor;
     pros::MotorGroup lift;
 };

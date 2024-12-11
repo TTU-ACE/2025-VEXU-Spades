@@ -5,6 +5,15 @@
 Robot::Robot() 
     : leftBase({BACK_LEFT_MOTOR.PORT_NUMBER, FRONT_LEFT_MOTOR.PORT_NUMBER}, BACK_LEFT_MOTOR.GEARSET),
       rightBase({FRONT_RIGHT_MOTOR.PORT_NUMBER, BACK_RIGHT_MOTOR.PORT_NUMBER}, BACK_RIGHT_MOTOR.GEARSET),
+      drivetrain(       &leftBase, 
+                        &rightBase, 
+                        15.5,                       // Track width
+                        lemlib::Omniwheel::NEW_4,   // Using new 4" omnis
+                        360,                        // Drivetrain rpm is 360
+                        2
+      ),
+      chassis(drivetrain, linearController, angularController, driveSensors, &throttleCurve, &steerCurve),  // Chassis for path following
+
       conveyor({CONVEYOR_LEFT_MOTOR.PORT_NUMBER, CONVEYOR_RIGHT_MOTOR.PORT_NUMBER}, CONVEYOR_LEFT_MOTOR.GEARSET),
       lift({LIFT_LEFT_MOTOR.PORT_NUMBER, LIFT_RIGHT_MOTOR.PORT_NUMBER}, LIFT_LEFT_MOTOR.GEARSET),
       intakeMotor(INTAKE_MOTOR.PORT_NUMBER, INTAKE_MOTOR.GEARSET, INTAKE_MOTOR.MOTOR_UNITS),
@@ -12,41 +21,14 @@ Robot::Robot()
     // Initialize robot components
 }
 
-// Implementation for tank drive with RPM values
-void Robot::tankDrive(double leftSpeed_rpm, double rightSpeed_rpm) {
-    // backLeftMotor.move_velocity(leftSpeed_rpm);
-    // frontLeftMotor.move_velocity(leftSpeed_rpm);
-    // backRightMotor.move_velocity(rightSpeed_rpm);
-    // frontRightMotor.move_velocity(rightSpeed_rpm);
-
-    leftBase.move_velocity(leftSpeed_rpm);
-    rightBase.move_velocity(rightSpeed_rpm);
+// Tank drive with raw joystick values using lemlib chassis
+void Robot::tankDrive(double leftSpeed_raw, double rightSpeed_raw) {
+    chassis.tank(leftSpeed_raw, rightSpeed_raw);
 }
 
-void Robot::arcadeDrive(double forwardSpeed_rpm, double turnSpeed_rpm) {
-    // Implementation for arcade drive
-    // Calculate left and right motor speeds based on forward and turn speeds
-    double leftSpeed_rpm = forwardSpeed_rpm + turnSpeed_rpm;
-    double rightSpeed_rpm = forwardSpeed_rpm - turnSpeed_rpm;
-
-    // Get max RPM of motors for normalization if out of bounds
-    float maxRPM = getMaxMotorRPM(backLeftMotor);  
-    
-    // Normalize speeds if they exceed maxRPM
-    double maxInput = std::max(std::abs(leftSpeed_rpm), std::abs(rightSpeed_rpm));
-    if (maxInput > maxRPM) {
-        leftSpeed_rpm = (leftSpeed_rpm / maxInput) * maxRPM;
-        rightSpeed_rpm = (rightSpeed_rpm / maxInput) * maxRPM;
-    }
-
-    // Set motor speeds for left and right sides in RPM
-    // backLeftMotor.move_velocity(leftSpeed_rpm);
-    // frontLeftMotor.move_velocity(leftSpeed_rpm);
-    // backRightMotor.move_velocity(rightSpeed_rpm);
-    // frontRightMotor.move_velocity(rightSpeed_rpm);
-
-    leftBase.move_velocity(leftSpeed_rpm);
-    rightBase.move_velocity(rightSpeed_rpm);
+// Arcade drive with raw joystick values using lemlib chassis
+void Robot::arcadeDrive(double forwardSpeed_raw, double turnSpeed_raw) {
+    chassis.arcade(forwardSpeed_raw, turnSpeed_raw);
 }
 
 // Implementation for setting intake speed
