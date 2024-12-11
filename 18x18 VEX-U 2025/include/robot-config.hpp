@@ -6,7 +6,7 @@
 
 
 struct MotorConfig {
-    int PORT_NUMBER;
+    int8_t PORT_NUMBER;
     pros::v5::MotorGears GEARSET;
     pros::v5::MotorUnits MOTOR_UNITS;
     bool REVERSED;

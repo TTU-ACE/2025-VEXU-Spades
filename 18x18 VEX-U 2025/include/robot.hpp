@@ -31,16 +31,8 @@ public:
 
 private:
     // Private members if needed
-    pros::Motor backLeftMotor;
-    pros::Motor backRightMotor;
-    pros::Motor frontLeftMotor;
-    pros::Motor frontRightMotor;
     pros::Motor intakeMotor;
     pros::Motor clampMotor;
-    pros::Motor leftConveyorMotor;
-    pros::Motor rightConveyorMotor;
-    pros::Motor leftLiftMotor;
-    pros::Motor rightLiftMotor;
 
     pros::MotorGroup leftBase;
     pros::MotorGroup rightBase;

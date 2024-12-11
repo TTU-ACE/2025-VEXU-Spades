@@ -2,28 +2,14 @@
 #include "robot.hpp"
 #include "robot-config.hpp"
 
-Robot::Robot() {
-    // Initialize robot components if needed
-    // backLeftMotor = pros::Motor(BACK_LEFT_MOTOR);
-    // backRightMotor = pros::Motor(BACK_RIGHT_MOTOR);
-    // frontLeftMotor = pros::Motor(FRONT_LEFT_MOTOR);
-    // frontRightMotor = pros::Motor(FRONT_RIGHT_MOTOR);
-
-    // intakeMotor = pros::Motor(INTAKE_MOTOR);
-    // clampMotor = pros::Motor(CLAMP_MOTOR);
-
-    // leftConveyorMotor = pros::Motor(CONVEYOR_LEFT_MOTOR);
-    // rightConveyorMotor = pros::Motor(CONVEYOR_RIGHT_MOTOR);
-
-    // leftLiftMotor = pros::Motor(LIFT_LEFT_MOTOR);
-    // rightLiftMotor = pros::Motor(LIFT_RIGHT_MOTOR);
-
-    //motor groups
-    // leftBase = pros::MotorGroup(frontLeftMotor, backLeftMotor);
-    // rightBase = pros::MotorGroup(frontRightMotor,backRightMotor);
-
-    // conveyor = pros::MotorGroup(leftConveyorMotor, rightConveyorMotor);
-    // lift = pros::MotorGroup(leftLiftMotor, rightLiftMotor);
+Robot::Robot() 
+    : leftBase({BACK_LEFT_MOTOR.PORT_NUMBER, FRONT_LEFT_MOTOR.PORT_NUMBER}, BACK_LEFT_MOTOR.GEARSET),
+      rightBase({FRONT_RIGHT_MOTOR.PORT_NUMBER, BACK_RIGHT_MOTOR.PORT_NUMBER}, BACK_RIGHT_MOTOR.GEARSET),
+      conveyor({CONVEYOR_LEFT_MOTOR.PORT_NUMBER, CONVEYOR_RIGHT_MOTOR.PORT_NUMBER}, CONVEYOR_LEFT_MOTOR.GEARSET),
+      lift({LIFT_LEFT_MOTOR.PORT_NUMBER, LIFT_RIGHT_MOTOR.PORT_NUMBER}, LIFT_LEFT_MOTOR.GEARSET),
+      intakeMotor(INTAKE_MOTOR.PORT_NUMBER, INTAKE_MOTOR.GEARSET, INTAKE_MOTOR.MOTOR_UNITS),
+      clampMotor(CLAMP_MOTOR.PORT_NUMBER, CLAMP_MOTOR.GEARSET, CLAMP_MOTOR.MOTOR_UNITS) {
+    // Initialize robot components
 }
 
 // Implementation for tank drive with RPM values
