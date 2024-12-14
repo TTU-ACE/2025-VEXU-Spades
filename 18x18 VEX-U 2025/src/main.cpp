@@ -1,4 +1,7 @@
 #include "main.h"
+#include "robot.cpp"
+
+Robot rob;
 
 /**
  * A callback function for LLEMU's center button.
@@ -59,7 +62,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	rob.chassis.follow(example_txt, 15, 4000, false); // Replace with path generated from https://path.jerryio.com/
+	//rob.chassis.follow("example_txt", 15, 4000, false); // Replace with path generated from https://path.jerryio.com/
 }
 
 /**
@@ -77,20 +80,47 @@ void autonomous() {
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::MotorGroup left_mg({1, -2, 3});    // Creates a motor group with forwards ports 1 & 3 and reversed port 2
-	pros::MotorGroup right_mg({-4, 5, -6});  // Creates a motor group with forwards port 5 and reversed ports 4 & 6
-
+	double speed = 4;
 
 	while (true) {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
 
-		// Arcade control scheme
-		int dir = master.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
-		int turn = master.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
-		left_mg.move(dir - turn);                      // Sets left motor voltage
-		right_mg.move(dir + turn);                     // Sets right motor voltage
+
+		//Buttonmapping
+		bool a = master.get_digital(DIGITAL_A);
+		bool b = master.get_digital(DIGITAL_B);
+		bool x = master.get_digital(DIGITAL_X);
+		bool y = master.get_digital(DIGITAL_Y);
+
+		bool r1 = master.get_digital(DIGITAL_R1);
+		bool r2 = master.get_digital(DIGITAL_R2);
+		bool l1 = master.get_digital(DIGITAL_L1);
+		bool l2 = master.get_digital(DIGITAL_L2);
+
+		bool up = master.get_digital(DIGITAL_UP);
+		bool down = master.get_digital(DIGITAL_DOWN);
+
+		if (up) {rob.raiseLift(speed);}
+		else if(down) {rob.lowerLift(speed);}
+		else {rob.stopLift();}
+
+		if (r2) {rob.setConveyorSpeed(speed);}
+		else {rob.setConveyorSpeed(0);}
+
+		if (r2) {rob.setIntakeSpeed(speed);}
+		else {rob.setIntakeSpeed(0);}
+
+		if (y) {rob.clamp(0, speed);}
+
+		if (x) {rob.unclamp(0, speed);}
+
+		
+		rob.arcadeDrive(master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_X));
+
+		//left_mg.move(dir - turn);                      // Sets left motor voltage
+		//right_mg.move(dir + turn);                     // Sets right motor voltage
 		pros::delay(20);                               // Run for 20 ms then update
 	}
 }

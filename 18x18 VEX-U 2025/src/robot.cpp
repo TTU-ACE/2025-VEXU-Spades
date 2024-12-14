@@ -65,15 +65,15 @@ void Robot::setConveyorSpeed(double speed) {
 }
 
 void Robot::raiseLift(double speed) {
-    
+    lift.move_velocity(speed);
 }
 
 void Robot::lowerLift(double speed) {
-    
+    lift.move_velocity(-speed);
 }
 
 void Robot::stopLift() {
-    
+    lift.brake();
 }
 
 /**
