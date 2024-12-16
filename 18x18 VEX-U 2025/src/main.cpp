@@ -1,5 +1,8 @@
 #include "main.h"
-#include "robot.cpp"
+//#include "robot.cpp"
+
+#include "robot.hpp"
+#include "robot-config.hpp"
 
 Robot rob;
 

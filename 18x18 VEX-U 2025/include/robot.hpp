@@ -1,12 +1,17 @@
 // robot.hpp
+#ifndef ROBOT_HPP
+#define ROBOT_HPP
+
 #pragma once
-#include "robot-config.hpp"
+//include "robot-config.hpp"
 #include "api.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
 
 class Robot {
 public:
     Robot();
+    //chassis
+    lemlib::Chassis chassis;
 
     // Drive functions
     void tankDrive(double leftSpeed, double rightSpeed);
@@ -35,7 +40,6 @@ private:
     pros::MotorGroup leftBase;
     pros::MotorGroup rightBase;
     lemlib::Drivetrain drivetrain;
-    lemlib::Chassis chassis;
 
     pros::Motor intakeMotor;
     pros::Motor clampMotor;
@@ -43,3 +47,5 @@ private:
     pros::MotorGroup conveyor;
     pros::MotorGroup lift;
 };
+
+#endif

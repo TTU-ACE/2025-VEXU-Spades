@@ -72,15 +72,15 @@ lemlib::ExpoDriveCurve steerCurve(  3, // joystick deadband out of 127
 // Subsystems
 //=============================================================================
 
-inline MotorConfig CONVEYOR_LEFT_MOTOR = {5, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations, false};
-inline MotorConfig CONVEYOR_RIGHT_MOTOR = {6, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations, true};
+inline MotorConfig CONVEYOR_LEFT_MOTOR = {6, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations, false};
+inline MotorConfig CONVEYOR_RIGHT_MOTOR = {7, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations, true};
 
-inline MotorConfig LIFT_LEFT_MOTOR = {7, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations, false};
-inline MotorConfig LIFT_RIGHT_MOTOR = {8, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations, true};
+inline MotorConfig LIFT_LEFT_MOTOR = {8, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations, false};
+inline MotorConfig LIFT_RIGHT_MOTOR = {21, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations, true};
 
-inline MotorConfig INTAKE_MOTOR = {9, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations, false};
+inline MotorConfig INTAKE_MOTOR = {5, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations, false};
 
-inline MotorConfig CLAMP_MOTOR = {10, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations, false};
+inline MotorConfig CLAMP_MOTOR = {9, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations, false};
 
 //control constants
 
