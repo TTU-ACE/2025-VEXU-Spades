@@ -2,50 +2,49 @@
 #ifndef ROBOT_HPP
 #define ROBOT_HPP
 
-#pragma once
-//include "robot-config.hpp"
+//#pragma once
 #include "api.h"
 #include "lemlib/api.hpp" // IWYU pragma: keep
 
 class Robot {
-public:
-    Robot();
-    //chassis
-    lemlib::Chassis chassis;
+    public:
+        Robot();
+        //chassis
+        lemlib::Chassis chassis;
 
-    // Drive functions
-    void tankDrive(double leftSpeed, double rightSpeed);
-    void arcadeDrive(double forwardSpeed, double turnSpeed);
+        // Drive functions
+        void tankDrive(double leftSpeed, double rightSpeed);
+        void arcadeDrive(double forwardSpeed, double turnSpeed);
 
-    // Intake functions
-    void setIntakeSpeed(double speed);
+        // Intake functions
+        void setIntakeSpeed(double speed);
 
-    // Clamping mechanism functions
-    void clamp(double clamped_position, double speed);
-    void unclamp(double unclamped_position, double speed);
+        // Clamping mechanism functions
+        void clamp(double clamped_position, double speed);
+        void unclamp(double unclamped_position, double speed);
 
-    // Conveyor functions
-    void setConveyorSpeed(double speed);
+        // Conveyor functions
+        void setConveyorSpeed(double speed);
 
-    // Lift functions
-    void raiseLift(double speed);
-    void lowerLift(double speed);
-    void stopLift();
+        // Lift functions
+        void raiseLift(double speed);
+        void lowerLift(double speed);
+        void stopLift();
 
-    // Utility functions
-    float getMaxMotorRPM(pros::Motor motor);
+        // Utility functions
+        float getMaxMotorRPM(pros::Motor motor);
 
-private:
-    // drive base and path following
-    pros::MotorGroup leftBase;
-    pros::MotorGroup rightBase;
-    lemlib::Drivetrain drivetrain;
+    private:
+        // drive base and path following
+        pros::MotorGroup leftBase;
+        pros::MotorGroup rightBase;
+        lemlib::Drivetrain drivetrain;
 
-    pros::Motor intakeMotor;
-    pros::Motor clampMotor;
+        pros::Motor intakeMotor;
+        pros::Motor clampMotor;
 
-    pros::MotorGroup conveyor;
-    pros::MotorGroup lift;
+        pros::MotorGroup conveyor;
+        pros::MotorGroup lift;
 };
 
 #endif
