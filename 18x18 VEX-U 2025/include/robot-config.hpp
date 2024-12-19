@@ -7,7 +7,7 @@
 
 
 struct MotorConfig {
-    int8_t PORT_NUMBER;
+    signed char PORT_NUMBER;
     pros::v5::MotorGears GEARSET;
     pros::v5::MotorUnits MOTOR_UNITS;
     bool REVERSED;
@@ -81,6 +81,7 @@ inline MotorConfig LIFT_RIGHT_MOTOR = {21, pros::v5::MotorGears::ratio_18_to_1, 
 inline MotorConfig INTAKE_MOTOR = {5, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations, false};
 
 inline MotorConfig CLAMP_MOTOR = {9, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations, false};
+
 
 //control constants
 

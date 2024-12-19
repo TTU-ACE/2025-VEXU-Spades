@@ -9,8 +9,6 @@
 class Robot {
     public:
         Robot();
-        //chassis
-        lemlib::Chassis chassis;
 
         // Drive functions
         void tankDrive(double leftSpeed, double rightSpeed);
@@ -39,6 +37,9 @@ class Robot {
         pros::MotorGroup leftBase;
         pros::MotorGroup rightBase;
         lemlib::Drivetrain drivetrain;
+
+        //chassis
+        lemlib::Chassis chassis;
 
         pros::Motor intakeMotor;
         pros::Motor clampMotor;

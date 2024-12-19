@@ -1,3 +1,4 @@
+//#include <iostream>
 #include "main.h"
 //#include "robot.cpp"
 
@@ -30,6 +31,7 @@ void on_center_button() {
  */
 void initialize() {
 	pros::lcd::initialize();
+	std::cout<<"init_check_here"<<std::endl;
 	pros::lcd::set_text(1, "Hello PROS User!");
 
 	pros::lcd::register_btn1_cb(on_center_button);
@@ -83,16 +85,17 @@ void autonomous() {
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	double speed = 4;
+	double speed = 50;
+	std::cout <<"opcontrol_init_check_here"<< std::endl;
 
 	while (true) {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
 		                 (pros::lcd::read_buttons() & LCD_BTN_CENTER) >> 1,
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
 
-
+		
 		//Buttonmapping
-		bool a = master.get_digital(DIGITAL_A);
+		/*bool a = master.get_digital(DIGITAL_A);
 		bool b = master.get_digital(DIGITAL_B);
 		bool x = master.get_digital(DIGITAL_X);
 		bool y = master.get_digital(DIGITAL_Y);
@@ -103,21 +106,21 @@ void opcontrol() {
 		bool l2 = master.get_digital(DIGITAL_L2);
 
 		bool up = master.get_digital(DIGITAL_UP);
-		bool down = master.get_digital(DIGITAL_DOWN);
-
-		if (up) {rob.raiseLift(speed);}
-		else if(down) {rob.lowerLift(speed);}
+		bool down = master.get_digital(DIGITAL_DOWN);*/
+		
+		/*if (master.get_digital(DIGITAL_UP)) {rob.raiseLift(speed);}
+		else if(master.get_digital(DIGITAL_DOWN)) {rob.lowerLift(speed);}
 		else {rob.stopLift();}
 
-		if (r2) {rob.setConveyorSpeed(speed);}
-		else {rob.setConveyorSpeed(0);}
+		if (master.get_digital(DIGITAL_R2)) {rob.setConveyorSpeed(speed);}
+		else {rob.setConveyorSpeed(0);}*/
 
-		if (r2) {rob.setIntakeSpeed(speed);}
+		if (master.get_digital(DIGITAL_R1)) {rob.setIntakeSpeed(speed);}
 		else {rob.setIntakeSpeed(0);}
+		/*
+		if (master.get_digital(DIGITAL_Y)) {rob.clamp(0, speed);}
 
-		if (y) {rob.clamp(0, speed);}
-
-		if (x) {rob.unclamp(0, speed);}
+		if (master.get_digital(DIGITAL_X)) {rob.unclamp(0, speed);}*/
 
 		
 		rob.arcadeDrive(master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_X));

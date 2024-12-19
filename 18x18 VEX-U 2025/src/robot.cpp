@@ -34,12 +34,14 @@ void Robot::arcadeDrive(double forwardSpeed_raw, double turnSpeed_raw) {
 // Implementation for setting intake speed
 void Robot::setIntakeSpeed(double speed) {
     //set intake at speed
+    //std::cout<<"intake"<< std::endl;
     intakeMotor.move_velocity(speed);
 }
 
 void Robot::clamp(double clamped_position, double speed) {
     //get encoder value
     double position = clampMotor.get_position();
+    //std::cout<<"clamp"<< std::endl;
 
     //checks if current position equals desired position
     if (position != clamped_position) {
@@ -51,6 +53,7 @@ void Robot::clamp(double clamped_position, double speed) {
 void Robot::unclamp(double unclamped_position, double speed) {
     //get encoder value
     double position = clampMotor.get_position();
+   // std::cout<<"unclamp"<< std::endl;
 
     //checks if current position equals desired position
     if (position != unclamped_position) {
@@ -62,18 +65,22 @@ void Robot::unclamp(double unclamped_position, double speed) {
 void Robot::setConveyorSpeed(double speed) {
     //set conveyor at speed
     conveyor.move_velocity(speed);
+    //std::cout<<"conveyor"<< std::endl;
 }
 
 void Robot::raiseLift(double speed) {
     lift.move_velocity(speed);
+    //std::cout<<"raiseLift"<< std::endl;
 }
 
 void Robot::lowerLift(double speed) {
     lift.move_velocity(-speed);
+    //std::cout<<"lowerLift"<< std::endl;
 }
 
 void Robot::stopLift() {
     lift.brake();
+    //std::cout<<"stopLift"<< std::endl;
 }
 
 /**
