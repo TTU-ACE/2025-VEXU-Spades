@@ -29,6 +29,9 @@ class Robot {
         void lowerLift(double speed);
         void stopLift();
 
+        void returnPositionClamp();
+        void returnPositionLift();
+
         // Utility functions
         float getMaxMotorRPM(pros::Motor motor);
 

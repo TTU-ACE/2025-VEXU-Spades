@@ -108,12 +108,12 @@ void opcontrol() {
 		bool up = master.get_digital(DIGITAL_UP);
 		bool down = master.get_digital(DIGITAL_DOWN);*/
 		
-		/*if (master.get_digital(DIGITAL_UP)) {rob.raiseLift(speed);}
+		if (master.get_digital(DIGITAL_UP)) {rob.raiseLift(speed);}
 		else if(master.get_digital(DIGITAL_DOWN)) {rob.lowerLift(speed);}
 		else {rob.stopLift();}
 
-		if (master.get_digital(DIGITAL_R2)) {rob.setConveyorSpeed(speed);}
-		else {rob.setConveyorSpeed(0);}*/
+		if (master.get_digital(DIGITAL_R2)) {rob.setConveyorSpeed(-speed);}
+		else {rob.setConveyorSpeed(0);}
 
 		if (master.get_digital(DIGITAL_R1)) {rob.setIntakeSpeed(speed);}
 		else {rob.setIntakeSpeed(0);}
@@ -122,11 +122,16 @@ void opcontrol() {
 
 		if (master.get_digital(DIGITAL_X)) {rob.unclamp(0, speed);}*/
 
+		//check position
+		//std::cout << rob.returnPositionClamp() << std::endl;
+		//std::cout << rob.returnPositionLift() << std::endl;
+		if(master.get_digital(DIGITAL_A)) {rob.returnPositionClamp();}
 		
 		rob.arcadeDrive(master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_X));
 
 		//left_mg.move(dir - turn);                      // Sets left motor voltage
 		//right_mg.move(dir + turn);                     // Sets right motor voltage
-		pros::delay(20);                               // Run for 20 ms then update
+
+		pros::delay(100); //revert to 20                              
 	}
 }

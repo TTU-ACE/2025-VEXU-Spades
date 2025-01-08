@@ -83,6 +83,16 @@ void Robot::stopLift() {
     //std::cout<<"stopLift"<< std::endl;
 }
 
+void Robot::returnPositionClamp() {
+    std::cout << "Clamp Position: " << clampMotor.get_position() << std::endl;
+    //clampMotor.get_position();
+}
+
+void Robot::returnPositionLift() {
+    std::cout << "Lift Position: " << lift.get_position() << std::endl;
+    //lift.get_position();
+}
+
 /**
  * Get the maximum RPM of a motor based on its gearset
  */
