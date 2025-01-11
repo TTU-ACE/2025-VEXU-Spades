@@ -18,8 +18,8 @@ class Robot {
         void setIntakeSpeed(double speed);
 
         // Clamping mechanism functions
-        void clamp(double clamped_position, double speed);
-        void unclamp(double unclamped_position, double speed);
+        void setClamp(double position);
+        void updateClamp();
 
         // Conveyor functions
         void setConveyorSpeed(double speed);

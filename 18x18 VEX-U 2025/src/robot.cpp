@@ -18,6 +18,14 @@ Robot::Robot()
       lift({LIFT_LEFT_MOTOR.PORT_NUMBER, LIFT_RIGHT_MOTOR.PORT_NUMBER}, LIFT_LEFT_MOTOR.GEARSET),
       intakeMotor(INTAKE_MOTOR.PORT_NUMBER, INTAKE_MOTOR.GEARSET, INTAKE_MOTOR.MOTOR_UNITS),
       clampMotor(CLAMP_MOTOR.PORT_NUMBER, CLAMP_MOTOR.GEARSET, CLAMP_MOTOR.MOTOR_UNITS) {
+
+    //https://lemlib.readthedocs.io/en/stable/api/utils.html#pid
+    // create a PID
+    lemlib::PID pid(5, // kP
+                    0.01, // kI
+                    20, // kD
+                    5, // integral anti windup range
+                    false); // don't reset integral when sign of error flips
     // Initialize robot components
 }
 
