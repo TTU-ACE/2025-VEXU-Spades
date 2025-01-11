@@ -112,11 +112,9 @@ void opcontrol() {
 		else if(master.get_digital(DIGITAL_DOWN)) {rob.lowerLift(speed);}
 		else {rob.stopLift();}
 
-		if (master.get_digital(DIGITAL_R2)) {rob.setConveyorSpeed(-speed);}
-		else {rob.setConveyorSpeed(0);}
+		rob.setConveyorSpeed(master.get_digital(DIGITAL_R2) ? -speed : 0);
+		rob.setIntakeSpeed(master.get_digital(DIGITAL_R1) ? speed : 0);
 
-		if (master.get_digital(DIGITAL_R1)) {rob.setIntakeSpeed(speed);}
-		else {rob.setIntakeSpeed(0);}
 		/*
 		if (master.get_digital(DIGITAL_Y)) {rob.clamp(0, speed);}
 
