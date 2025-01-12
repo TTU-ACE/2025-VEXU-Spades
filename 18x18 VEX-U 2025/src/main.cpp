@@ -3,7 +3,7 @@
 //#include "robot.cpp"
 
 #include "robot.hpp"
-//#include "robot-config.hpp"
+#include "robot-config.hpp"
 
 Robot rob;
 
@@ -115,15 +115,14 @@ void opcontrol() {
 		rob.setConveyorSpeed(master.get_digital(DIGITAL_R2) ? -speed : 0);
 		rob.setIntakeSpeed(master.get_digital(DIGITAL_R1) ? speed : 0);
 
-		/*
-		if (master.get_digital(DIGITAL_Y)) {rob.clamp(0, speed);}
-
-		if (master.get_digital(DIGITAL_X)) {rob.unclamp(0, speed);}*/
+		// Set and hold clamp position
+		if (master.get_digital(DIGITAL_Y)) 		{rob.setClamp(clampedPosition);}
+		else if (master.get_digital(DIGITAL_X)) {rob.setClamp(unclampedPosition);}
 
 		//check position
 		//std::cout << rob.returnPositionClamp() << std::endl;
 		//std::cout << rob.returnPositionLift() << std::endl;
-		if(master.get_digital(DIGITAL_A)) {rob.returnPositionClamp();}
+		if(master.get_digital(DIGITAL_A)) {rob.displayClampPosition();}
 		
 		rob.arcadeDrive(master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_X));
 

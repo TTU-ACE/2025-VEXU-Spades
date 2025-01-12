@@ -19,14 +19,7 @@ Robot::Robot()
       intakeMotor(INTAKE_MOTOR.PORT_NUMBER, INTAKE_MOTOR.GEARSET, INTAKE_MOTOR.MOTOR_UNITS),
       clampMotor(CLAMP_MOTOR.PORT_NUMBER, CLAMP_MOTOR.GEARSET, CLAMP_MOTOR.MOTOR_UNITS) {
 
-    //https://lemlib.readthedocs.io/en/stable/api/utils.html#pid
-    // create a PID
-    lemlib::PID pid(5, // kP
-                    0.01, // kI
-                    20, // kD
-                    5, // integral anti windup range
-                    false); // don't reset integral when sign of error flips
-    // Initialize robot components
+    clampMotor.set_zero_position(0);  // Set the zero position of the clamp motor. Robot setup should be done with the clamp in the down position
 }
 
 // Tank drive with raw joystick values using lemlib chassis
@@ -46,29 +39,29 @@ void Robot::setIntakeSpeed(double speed) {
     intakeMotor.move_velocity(speed);
 }
 
-void Robot::clamp(double clamped_position, double speed) {
+void Robot::setClamp(double position) {
+    const int32_t maxRPM = getMaxMotorRPM(clampMotor);  // Modify if needed
     //get encoder value
-    double position = clampMotor.get_position();
-    //std::cout<<"clamp"<< std::endl;
-
-    //checks if current position equals desired position
-    if (position != clamped_position) {
-        //move to position based on absolute location
-        clampMotor.move_absolute(clamped_position, speed);
-    }
+    std::cout << "Settting Clamp Position: " << position << std::endl;
+    clampMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);  // Hold position when stopped
+    clampMotor.move_absolute(position, maxRPM);
 }
 
-void Robot::unclamp(double unclamped_position, double speed) {
-    //get encoder value
-    double position = clampMotor.get_position();
-   // std::cout<<"unclamp"<< std::endl;
-
-    //checks if current position equals desired position
-    if (position != unclamped_position) {
-        //move to position based on absolute location
-        clampMotor.move_absolute(unclamped_position, speed);
-    }
+void Robot::releaseClamp() {
+    clampMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);  // Release the brake for free movement
 }
+
+// TODO I believe that the pros::Motor class can hold the position of the motor using a built-in PID controller
+// void Robot::updateClamp() {
+//     //get encoder value
+//     int32_t real_pos = clampMotor.get_position();
+//     std::cout << "Clamp Position: " << real_pos << std::endl;
+
+//     // Feed the error into the PID controller
+//     int32_t error = clampSetpoint - real_pos;
+//     float output = clampPID.update(error);
+//     clampMotor.move_velocity(output);
+// }
 
 void Robot::setConveyorSpeed(double speed) {
     //set conveyor at speed
@@ -91,7 +84,7 @@ void Robot::stopLift() {
     //std::cout<<"stopLift"<< std::endl;
 }
 
-void Robot::returnPositionClamp() {
+void Robot::displayClampPosition() {
     std::cout << "Clamp Position: " << clampMotor.get_position() << std::endl;
     //clampMotor.get_position();
 }

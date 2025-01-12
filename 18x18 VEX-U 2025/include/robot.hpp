@@ -19,17 +19,19 @@ class Robot {
 
         // Clamping mechanism functions
         void setClamp(double position);
-        void updateClamp();
+        void releaseClamp();
+        //void updateClamp();
 
         // Conveyor functions
         void setConveyorSpeed(double speed);
 
         // Lift functions
+        // TODO: Hold position for lift with setLift()
         void raiseLift(double speed);
         void lowerLift(double speed);
         void stopLift();
 
-        void returnPositionClamp();
+        void displayClampPosition();
         void returnPositionLift();
 
         // Utility functions
@@ -45,7 +47,10 @@ class Robot {
         lemlib::Chassis chassis;
 
         pros::Motor intakeMotor;
+
+        //lemlib::PID clampPID;  // TODO Remove if pros::Motor can hold position
         pros::Motor clampMotor;
+        //int32_t clampSetpoint;
 
         pros::MotorGroup conveyor;
         pros::MotorGroup lift;

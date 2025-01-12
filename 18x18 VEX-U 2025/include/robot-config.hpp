@@ -83,9 +83,9 @@ inline MotorConfig CLAMP_MOTOR = {9, pros::v5::MotorGears::ratio_18_to_1, pros::
 //control constants
 inline double clampedPosition = 0.0;
 inline double unclampedPosition = -0.0777;
-double clampPosition;
+inline double clampPosition;
 
-double liftPosition;
+inline double liftPosition;
 
 inline double clampSpeedConstant = 50;
 inline double liftSpeedConstant = 50;
