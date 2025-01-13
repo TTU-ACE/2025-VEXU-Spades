@@ -49,6 +49,7 @@ void Robot::setClamp(double position) {
 
 void Robot::releaseClamp() {
     clampMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);  // Release the brake for free movement
+    clampMotor.move_voltage(0);
 }
 
 // TODO I believe that the pros::Motor class can hold the position of the motor using a built-in PID controller
