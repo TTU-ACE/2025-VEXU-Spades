@@ -2,8 +2,10 @@
 #include "main.h"
 //#include "robot.cpp"
 
-#include "robot.hpp"
 #include "robot-config.hpp"
+#include "pros/misc.h"
+#include "robot.hpp"
+
 
 Robot rob;
 
@@ -85,7 +87,7 @@ void autonomous() {
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	double speed = 50;
+	double speed = 200;
 	std::cout <<"opcontrol_init_check_here"<< std::endl;
 
 	while (true) {
@@ -94,24 +96,6 @@ void opcontrol() {
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
 
 		
-		//Buttonmapping
-		/*bool a = master.get_digital(DIGITAL_A);
-		bool b = master.get_digital(DIGITAL_B);
-		bool x = master.get_digital(DIGITAL_X);
-		bool y = master.get_digital(DIGITAL_Y);
-
-		bool r1 = master.get_digital(DIGITAL_R1);
-		bool r2 = master.get_digital(DIGITAL_R2);
-		bool l1 = master.get_digital(DIGITAL_L1);
-		bool l2 = master.get_digital(DIGITAL_L2);
-
-		bool up = master.get_digital(DIGITAL_UP);
-		bool down = master.get_digital(DIGITAL_DOWN);*/
-		
-		if (master.get_digital(DIGITAL_UP)) {rob.raiseLift(speed);}
-		else if(master.get_digital(DIGITAL_DOWN)) {rob.lowerLift(speed);}
-		else {rob.stopLift();}
-
 		rob.setConveyorSpeed(master.get_digital(DIGITAL_R2) ? -speed : 0);
 		rob.setIntakeSpeed(master.get_digital(DIGITAL_R1) ? speed : 0);
 
@@ -129,6 +113,6 @@ void opcontrol() {
 		//left_mg.move(dir - turn);                      // Sets left motor voltage
 		//right_mg.move(dir + turn);                     // Sets right motor voltage
 
-		pros::delay(100); //revert to 20                              
+		pros::delay(20); //revert to 20                              
 	}
 }
