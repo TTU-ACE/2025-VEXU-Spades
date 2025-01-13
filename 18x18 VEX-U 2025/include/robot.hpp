@@ -47,11 +47,8 @@ class Robot {
         lemlib::Chassis chassis;
 
         pros::Motor intakeMotor;
-
-        //lemlib::PID clampPID;  // TODO Remove if pros::Motor can hold position
         pros::Motor clampMotor;
-        //int32_t clampSetpoint;
-
+        
         pros::MotorGroup conveyor;
         pros::MotorGroup lift;
 };
