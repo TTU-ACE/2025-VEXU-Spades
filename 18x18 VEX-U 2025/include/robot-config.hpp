@@ -4,6 +4,7 @@
 
 #include "main.h"
 #include "lemlib/api.hpp"
+#include <cstdint>
 
 
 struct MotorConfig {
@@ -68,6 +69,27 @@ inline lemlib::ExpoDriveCurve steerCurve(   3, // joystick deadband out of 127
 
 
 //=============================================================================
+// PID Controllers
+//=============================================================================
+
+//https://lemlib.readthedocs.io/en/stable/api/utils.html#pid
+// create a PID
+lemlib::PID clampPid(5, // kP
+                0.02, // kI
+                20, // kD
+                0.01,// integral anti windup range
+                true // don't reset integral when sign of error flips
+); 
+
+lemlib::PID liftPid(5, // kP
+                0.01, // kI
+                20, // kD
+                5, // integral anti windup range
+                false // don't reset integral when sign of error flips
+); 
+// Initialize robot components
+
+//=============================================================================
 // Subsystems
 //=============================================================================
 
@@ -78,12 +100,12 @@ inline MotorConfig LIFT_LEFT_MOTOR = {-8, pros::v5::MotorGears::ratio_18_to_1, p
 inline MotorConfig LIFT_RIGHT_MOTOR = {10, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
 
 inline MotorConfig INTAKE_MOTOR = {2, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
-inline MotorConfig CLAMP_MOTOR = {9, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+inline MotorConfig CLAMP_MOTOR = {9, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 
 //control constants
 inline double clampedPosition = 0.0;
 inline double unclampedPosition = -0.0777;
-inline double clampPosition;
+double clampPosition;
 
 inline double liftPosition;
 

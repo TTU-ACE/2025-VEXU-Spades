@@ -1,6 +1,7 @@
 // robot.cpp
 #include "robot.hpp"
 #include "robot-config.hpp"
+#include <cstdint>
 
 Robot::Robot() 
     : leftBase({BACK_LEFT_MOTOR.PORT_NUMBER, FRONT_LEFT_MOTOR.PORT_NUMBER}, BACK_LEFT_MOTOR.GEARSET),
