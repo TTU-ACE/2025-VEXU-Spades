@@ -2,8 +2,9 @@
 #include "main.h"
 //#include "robot.cpp"
 
-#include "robot-config.hpp"
+//#include "robot-config.hpp"
 #include "pros/misc.h"
+#include "robot-config.hpp"
 #include "robot.hpp"
 
 
@@ -98,20 +99,20 @@ void opcontrol() {
 		
 		rob.setConveyorSpeed(master.get_digital(DIGITAL_R2) ? -speed : 0);
 		rob.setIntakeSpeed(master.get_digital(DIGITAL_R1) ? speed : 0);
-
+		
 		// Set and hold clamp position
-		if (master.get_digital(DIGITAL_Y)) 		{rob.setClamp(clampedPosition);}
-		else if (master.get_digital(DIGITAL_X)) {rob.setClamp(unclampedPosition);}
+		if (master.get_digital(DIGITAL_Y)) 		{rob.setClamp(clampedStatePosition);} //clamp
+		else if (master.get_digital(DIGITAL_X)) {rob.setClamp(unclampedStatePosition);} //unclamp
+		//if (master.get_digital(DIGITAL_B)) {rob.releaseClamp();} //release for ease of moving
+
+		if (master.get_digital(DIGITAL_UP)) 		{rob.setLift(liftedStatePosition);} //lifted
+		else if (master.get_digital(DIGITAL_DOWN))  {rob.setLift(loweredStatePosition);} //lowered
 
 		//check position
-		//std::cout << rob.returnPositionClamp() << std::endl;
-		//std::cout << rob.returnPositionLift() << std::endl;
 		if(master.get_digital(DIGITAL_A)) {rob.displayClampPosition();}
+		if(master.get_digital(DIGITAL_B)) {rob.returnPositionLift();}
 		
 		rob.arcadeDrive(master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_X));
-
-		//left_mg.move(dir - turn);                      // Sets left motor voltage
-		//right_mg.move(dir + turn);                     // Sets right motor voltage
 
 		pros::delay(20); //revert to 20                              
 	}

@@ -4,6 +4,7 @@
 
 #include "main.h"
 #include "lemlib/api.hpp"
+//#include "robot-config.hpp"
 #include <cstdint>
 
 
@@ -74,19 +75,19 @@ inline lemlib::ExpoDriveCurve steerCurve(   3, // joystick deadband out of 127
 
 //https://lemlib.readthedocs.io/en/stable/api/utils.html#pid
 // create a PID
-lemlib::PID clampPid(5, // kP
-                0.02, // kI
-                20, // kD
-                0.01,// integral anti windup range
-                true // don't reset integral when sign of error flips
-); 
+// lemlib::PID clampPid(5, // kP
+//                 0.02, // kI
+//                 20, // kD
+//                 0.01,// integral anti windup range
+//                 true // don't reset integral when sign of error flips
+// ); 
 
-lemlib::PID liftPid(5, // kP
-                0.01, // kI
-                20, // kD
-                5, // integral anti windup range
-                false // don't reset integral when sign of error flips
-); 
+// lemlib::PID liftPid(5, // kP
+//                 0.01, // kI
+//                 20, // kD
+//                 5, // integral anti windup range
+//                 false // don't reset integral when sign of error flips
+// ); 
 // Initialize robot components
 
 //=============================================================================
@@ -103,11 +104,15 @@ inline MotorConfig INTAKE_MOTOR = {2, pros::v5::MotorGears::ratio_18_to_1, pros:
 inline MotorConfig CLAMP_MOTOR = {9, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 
 //control constants
-inline double clampedPosition = 0.0;
-inline double unclampedPosition = -0.0777;
-double clampPosition;
+inline float clampedStatePosition = 0.0;
+inline float unclampedStatePosition = -80;
+//float clampCurrentPosition;
+inline float clampDesiredState;
 
-inline double liftPosition;
+inline double liftedStatePosition = 1121;
+inline double loweredStatePosition = 50;
+inline double liftDesiredState;
+// inline double liftPosition;
 
 inline double clampSpeedConstant = 50;
 inline double liftSpeedConstant = 50;

@@ -1,5 +1,7 @@
 // robot.cpp
 #include "robot.hpp"
+#include "pros/abstract_motor.hpp"
+#include "pros/motors.h"
 #include "robot-config.hpp"
 #include <cstdint>
 
@@ -41,6 +43,14 @@ void Robot::setIntakeSpeed(double speed) {
 }
 
 void Robot::setClamp(double position) {
+    //determine state based off input
+    //     switch (state) {
+    //     case 0: 
+    //        clampDesiredState = clampedStatePosition; 
+    //     case 1:
+    //         clampDesiredState = unclampedStatePosition;
+
+    // }
     const int32_t maxRPM = getMaxMotorRPM(clampMotor);  // Modify if needed
     //get encoder value
     std::cout << "Settting Clamp Position: " << position << std::endl;
@@ -71,7 +81,32 @@ void Robot::setConveyorSpeed(double speed) {
     //std::cout<<"conveyor"<< std::endl;
 }
 
-void Robot::raiseLift(double speed) {
+void Robot::setLift(double position) {
+    //determine state by user input
+    // switch (state) {
+    //     case 0:
+    //         liftDesiredState = liftedStatePosition;
+    //     case 1:
+    //         liftDesiredState = loweredStatePosition;
+    // }
+
+    const int32_t maxRPM = getMaxMotorRPM(LIFT_RIGHT_MOTOR.PORT_NUMBER);  // Modify if needed
+    //get encoder value
+    std::cout << "Settting Lift Position: " << position << std::endl;
+    lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);  // Hold position when stopped
+    lift.move_absolute(position, maxRPM);
+
+	// while (!((lift.get_position() < (liftDesiredState + 5)) && (lift.get_position() > (liftDesiredState - 5)))) {
+	//     lift.move_absolute(liftDesiredState, maxRPM);
+	//     pros::delay(2);
+	// }
+}
+
+void Robot::releaseLift() {
+    lift.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+}
+
+/*void Robot::raiseLift(double speed) {
     lift.move_velocity(speed);
     //std::cout<<"raiseLift"<< std::endl;
 }
@@ -84,7 +119,7 @@ void Robot::lowerLift(double speed) {
 void Robot::stopLift() {
     lift.brake();
     //std::cout<<"stopLift"<< std::endl;
-}
+}*/
 
 void Robot::displayClampPosition() {
     std::cout << "Clamp Position: " << clampMotor.get_position() << std::endl;
@@ -92,7 +127,7 @@ void Robot::displayClampPosition() {
 }
 
 void Robot::returnPositionLift() {
-    std::cout << "Lift Position: " << lift.get_position() << std::endl;
+    std::cout << "Lift Position: " << lift.get_position(1) << std::endl;
     //lift.get_position();
 }
 

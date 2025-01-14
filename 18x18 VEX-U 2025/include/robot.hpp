@@ -27,9 +27,11 @@ class Robot {
 
         // Lift functions
         // TODO: Hold position for lift with setLift()
-        void raiseLift(double speed);
-        void lowerLift(double speed);
-        void stopLift();
+        //void raiseLift(double speed);
+        //void lowerLift(double speed);
+        void setLift(double position);
+        void releaseLift();
+        
 
         void displayClampPosition();
         void returnPositionLift();
