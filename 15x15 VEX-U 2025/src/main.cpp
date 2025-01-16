@@ -1,55 +1,150 @@
 #include "main.h"
-#include "lemlog/logger/sinks/terminal.hpp"
-#include "hardware/Motor/MotorGroup.hpp"
-#include "hardware/IMU/V5InertialSensor.hpp"
-#include "lemlib/tracking/TrackingWheelOdom.hpp"
-#include "lemlib/motions/turnToHeading.hpp"
-#include "pros/llemu.hpp"
+#include "robot.hpp"
+#include "robot-config.hpp"
+#include <cmath>
 
-logger::Terminal terminal;
+// Create a global Robot instance
+Robot rob;
 
-lemlib::MotorGroup rightDrive({8, 10}, 360_rpm);
-lemlib::MotorGroup leftDrive({-18, -19}, 360_rpm);
+// Toggle-tracking for the Y button clamp logic
+ButtonToggleState yButtonState = ButtonToggleState::NOT_BEGUN;
+bool wasYPressedLast = false;
 
-lemlib::V5InertialSensor imu(1);
-
-lemlib::TrackingWheel verticalTracker('E', 'F', true, 2.75_in, 26.5_cm / 2);
-lemlib::TrackingWheel horizontalTracker('G', 'H', false, 2.75_in, -26.5_cm / 2);
-
-lemlib::TrackingWheelOdometry odom({&imu}, {&verticalTracker}, {&horizontalTracker});
-
-lemlib::PID pid(0.05, 0, 0);
-lemlib::ExitCondition<AngleRange> exitCondition(1_stDeg, 2_sec);
-
+/**
+ * Initialize code. Runs once after program starts.
+ */
 void initialize() {
-    terminal.setLoggingLevel(logger::Level::DEBUG);
     pros::lcd::initialize();
+    pros::lcd::set_text(1, "Small Bot: Hello from PROS!");
 
-    imu.calibrate();
-    pros::delay(3200);
-    odom.startTask();
-    pros::delay(100);
-    pros::Task([&] {
-        while (true) {
-            auto p = odom.getPose();
-            pros::lcd::print(0, "X: %f", to_in(p.x));
-            pros::lcd::print(1, "Y: %f", to_in(p.y));
-            pros::lcd::print(2, "Theta: %f", to_cDeg(p.orientation));
-            pros::delay(10);
-        }
-    });
-    lemlib::turnToHeading(90_cDeg, 100_sec, {.slew = 1},
-                          {
-                              .angularPID = pid,
-                              .exitConditions = std::vector<lemlib::ExitCondition<AngleRange>>({exitCondition}),
-                              .poseGetter = [] -> units::Pose { return odom.getPose(); },
-                              .leftMotors = leftDrive,
-                              .rightMotors = rightDrive,
-                          });
+    // The Robot constructor automatically sets up motors and starting positions
+    // Additional custom init can be done here if needed
 }
 
+/**
+ * Disabled code (not used here but required by PROS for comp)
+ */
 void disabled() {}
 
-void autonomous() {}
+/**
+ * Competition-specific init
+ */
+void competition_initialize() {
+    // If you have a pre-auton routine, calibrations, etc.
+}
 
-void opcontrol() {}
+/**
+ * Autonomous code
+ */
+void autonomous() {
+    pros::lcd::print(2, "Autonomous Started");
+    // Example: clamp down and move forward
+    rob.clampIt();   
+    rob.arcadeDrive(100, 0); // forward
+    pros::delay(1000);
+    rob.arcadeDrive(0, 0);   // stop
+    pros::delay(500);
+}
+
+/**
+ * OpControl (teleop) code
+ */
+void opcontrol() {
+    pros::Controller master(pros::E_CONTROLLER_MASTER);
+
+    // Track first-time teleop actions if needed
+    bool teleopStarted = false;
+
+    while(true) {
+        if(!teleopStarted) {
+            // example “move to init position”
+            rob.LBInit();
+            teleopStarted = true;
+        }
+
+        // arcade drive from sticks
+        double fwd = master.get_analog(ANALOG_LEFT_Y); 
+        double turn = master.get_analog(ANALOG_RIGHT_X);
+        rob.arcadeDrive(fwd, turn);
+
+        // L1 => intake forward, L2 => intake reverse
+        if(master.get_digital(DIGITAL_L1)) {
+            rob.setIntakeSpeed(INTAKE_SPEED_PCT);
+        } else if(master.get_digital(DIGITAL_L2)) {
+            rob.setIntakeSpeed(-INTAKE_SPEED_PCT);
+        } else {
+            rob.stopIntake();
+        }
+
+        // R1 => hook intake forward, R2 => hook intake reverse
+        if(master.get_digital(DIGITAL_R1)) {
+            rob.setHookIntakeSpeed(HOOK_INTAKE_SPEED_PCT);
+        } else if(master.get_digital(DIGITAL_R2)) {
+            rob.setHookIntakeSpeed(-HOOK_INTAKE_SPEED_PCT);
+        } else {
+            rob.stopHookIntake();
+        }
+
+        // UP => raise hang, DOWN => lower hang
+        if(master.get_digital(DIGITAL_UP)) {
+            rob.raiseHang();
+        } else if(master.get_digital(DIGITAL_DOWN)) {
+            rob.lowerHang();
+        } else {
+            rob.stopHang();
+        }
+
+        // Single-press toggling of clamp with Y
+        bool yPressedNow = master.get_digital(DIGITAL_Y);
+        if(yPressedNow && !wasYPressedLast) {
+            // just changed from not pressed to pressed
+            if(yButtonState == ButtonToggleState::NOT_BEGUN) {
+                yButtonState = ButtonToggleState::PRESSED;
+            }
+        }
+        else if(!yPressedNow && wasYPressedLast) {
+            // just changed from pressed to not pressed
+            if(yButtonState == ButtonToggleState::PRESSED) {
+                yButtonState = ButtonToggleState::FINISHED;
+                // we interpret that as a single press
+                rob.clampIt();
+            }
+        }
+        else if(yButtonState == ButtonToggleState::FINISHED) {
+            // reset to allow next press
+            yButtonState = ButtonToggleState::NOT_BEGUN;
+        }
+        wasYPressedLast = yPressedNow;
+
+        // Left => Lady Browns down
+        if(master.get_digital(DIGITAL_LEFT)) {
+            rob.LBDown();
+        }
+
+        // A => move Lady Browns to A-button angle
+        if(master.get_digital(DIGITAL_A)) {
+            rob.LBToAButton();
+        }
+
+        // B => move Lady Browns to init angle
+        if(master.get_digital(DIGITAL_B)) {
+            rob.LBInit();
+        }
+
+        // X => toggle detect_blue_mode
+        if(master.get_digital_new_press(DIGITAL_X)) {
+            if(detect_blue_mode) {
+                abort_detection = true;
+                detect_blue_mode = false;
+            } else {
+                detect_blue_mode = true;
+                abort_detection  = false;
+            }
+        }
+
+        // If detection is toggled on, handle it
+        rob.handleRingDetection();
+
+        pros::delay(20);
+    }
+}

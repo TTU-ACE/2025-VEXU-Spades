@@ -37,7 +37,7 @@ class Robot {
         void returnPositionLift();
 
         // Utility functions
-        float getMaxMotorRPM(pros::Motor motor);
+        float getMaxVelocity(pros::Motor motor);
 
     private:
         // drive base and path following

@@ -6,21 +6,21 @@
 #include <cstdint>
 
 Robot::Robot() 
-    : leftBase({BACK_LEFT_MOTOR.PORT_NUMBER, FRONT_LEFT_MOTOR.PORT_NUMBER}, BACK_LEFT_MOTOR.GEARSET),
-      rightBase({FRONT_RIGHT_MOTOR.PORT_NUMBER, BACK_RIGHT_MOTOR.PORT_NUMBER}, BACK_RIGHT_MOTOR.GEARSET),
+    : leftBase({BACK_LEFT_MOTOR.port, FRONT_LEFT_MOTOR.port}, BACK_LEFT_MOTOR.gearset),
+      rightBase({FRONT_RIGHT_MOTOR.port, BACK_RIGHT_MOTOR.port}, BACK_RIGHT_MOTOR.gearset),
       drivetrain(       &leftBase, 
                         &rightBase, 
-                        15.5,                       // Track width
-                        lemlib::Omniwheel::NEW_4,   // Using new 4" omnis
-                        360,                        // Drivetrain rpm is 360
-                        2
+                        LG_BOT_TRACK_WIDTH, // Track width
+                        LG_BOT_WHEEL_DIAM,  // Using new 4" omnis
+                        LG_BOT_WHEEL_RPM,   // Drivetrain rpms
+                        LG_BOT_EXT_GEAR_RATIO
       ),
       chassis(drivetrain, linearController, angularController, driveSensors, &throttleCurve, &steerCurve),  // Chassis for path following
 
-      conveyor({CONVEYOR_LEFT_MOTOR.PORT_NUMBER, CONVEYOR_RIGHT_MOTOR.PORT_NUMBER}, CONVEYOR_LEFT_MOTOR.GEARSET),
-      lift({LIFT_LEFT_MOTOR.PORT_NUMBER, LIFT_RIGHT_MOTOR.PORT_NUMBER}, LIFT_LEFT_MOTOR.GEARSET),
-      intakeMotor(INTAKE_MOTOR.PORT_NUMBER, INTAKE_MOTOR.GEARSET, INTAKE_MOTOR.MOTOR_UNITS),
-      clampMotor(CLAMP_MOTOR.PORT_NUMBER, CLAMP_MOTOR.GEARSET, CLAMP_MOTOR.MOTOR_UNITS) {
+      conveyor({CONVEYOR_LEFT_MOTOR.port, CONVEYOR_RIGHT_MOTOR.port}, CONVEYOR_LEFT_MOTOR.gearset),
+      lift({LIFT_LEFT_MOTOR.port, LIFT_RIGHT_MOTOR.port}, LIFT_LEFT_MOTOR.gearset),
+      intakeMotor(INTAKE_MOTOR.port, INTAKE_MOTOR.gearset, INTAKE_MOTOR.units),
+      clampMotor(CLAMP_MOTOR.port, CLAMP_MOTOR.gearset, CLAMP_MOTOR.units) {
 
     clampMotor.set_zero_position(0);  // Set the zero position of the clamp motor. Robot setup should be done with the clamp in the down position
 }
@@ -51,7 +51,7 @@ void Robot::setClamp(double position) {
     //         clampDesiredState = unclampedStatePosition;
 
     // }
-    const int32_t maxRPM = getMaxMotorRPM(clampMotor);  // Modify if needed
+    const int32_t maxRPM = getMaxVelocity(clampMotor);  // Modify if needed
     //get encoder value
     std::cout << "Settting Clamp Position: " << position << std::endl;
     clampMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);  // Hold position when stopped
@@ -90,7 +90,7 @@ void Robot::setLift(double position) {
     //         liftDesiredState = loweredStatePosition;
     // }
 
-    const int32_t maxRPM = getMaxMotorRPM(LIFT_RIGHT_MOTOR.PORT_NUMBER);  // Modify if needed
+    const int32_t maxRPM = getMaxVelocity(LIFT_RIGHT_MOTOR.port);  // Modify if needed
     //get encoder value
     std::cout << "Settting Lift Position: " << position << std::endl;
     lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);  // Hold position when stopped
@@ -132,26 +132,31 @@ void Robot::returnPositionLift() {
 }
 
 /**
- * Get the maximum RPM of a motor based on its gearset
+ * Get the maximum velocity of a motor based on its gearset and units
  */
-float Robot::getMaxMotorRPM(pros::Motor motor) {
-    float maxRPM;
+float Robot::getMaxVelocity(pros::Motor motor) {
+    float maxVelocity;
 
-    //maxRPM is dependent on the gearset of the motors
+    // maxVelocity is dependent on the gearset of the motors
     switch (motor.get_gearing()) {
         case pros::MotorGears::ratio_36_to_1:
-            maxRPM = 100;
+            maxVelocity = 100;
             break;
         case pros::MotorGears::ratio_18_to_1:
-            maxRPM = 200;
+            maxVelocity = 200;
             break;
         case pros::MotorGears::ratio_6_to_1:
-            maxRPM = 600;
+            maxVelocity = 600;
             break;
         default:
-            maxRPM = 200; // Default to a common gearset if unknown
+            maxVelocity = 200; // Default to a common gearset if unknown
             break;
     }
 
-    return maxRPM;
+    // Adjust maxVelocity based on the motor units
+    if (motor.get_encoder_units() == pros::v5::MotorUnits::degrees) {
+        maxVelocity *= 360.0 / 60.0; // Convert RPM to degrees per second
+    }
+
+    return maxVelocity;
 }

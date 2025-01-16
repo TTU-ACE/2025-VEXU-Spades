@@ -7,22 +7,38 @@
 //#include "robot-config.hpp"
 #include <cstdint>
 
-
+/**
+ * \brief A struct that stores the port, gearset, and motor units for a motor.
+ */
 struct MotorConfig {
-    signed char PORT_NUMBER;
-    pros::v5::MotorGears GEARSET;
-    pros::v5::MotorUnits MOTOR_UNITS;
+    signed char port;
+    pros::v5::MotorGears gearset;
+    pros::v5::MotorUnits units;
 };
 
 //=============================================================================
-// Drive Train and Chassis Configuration
+// Motor Ports & Configuration
 //=============================================================================
 
-//motor configurations
 inline MotorConfig FRONT_LEFT_MOTOR =   {-3, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
 inline MotorConfig FRONT_RIGHT_MOTOR =  {8, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
 inline MotorConfig BACK_LEFT_MOTOR =    {-1, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
 inline MotorConfig BACK_RIGHT_MOTOR =   {6, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+
+inline MotorConfig CONVEYOR_LEFT_MOTOR = {5, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+inline MotorConfig CONVEYOR_RIGHT_MOTOR = {-7, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+
+inline MotorConfig LIFT_LEFT_MOTOR = {-8, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+inline MotorConfig LIFT_RIGHT_MOTOR = {10, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+
+inline MotorConfig INTAKE_MOTOR = {2, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+inline MotorConfig CLAMP_MOTOR = {9, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
+
+
+
+//=============================================================================
+// Lemlib Drive Train Configuration
+//=============================================================================
 
 // lateral motion controller
 inline lemlib::ControllerSettings linearController(     10,     // proportional gain (kP)
@@ -90,18 +106,21 @@ inline lemlib::ExpoDriveCurve steerCurve(   3, // joystick deadband out of 127
 // ); 
 // Initialize robot components
 
+
 //=============================================================================
-// Subsystems
+// Constants
 //=============================================================================
 
-inline MotorConfig CONVEYOR_LEFT_MOTOR = {5, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
-inline MotorConfig CONVEYOR_RIGHT_MOTOR = {-7, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+// 5) Drivetrain mechanical parameters
+//   - trackWidth and wheelDiameter might differ for your small bot. 
+//   - "wheelRPM" depends on gearset. For a standard 18:1 gearset, 
+//     free speed is ~200 RPM, or 600 RPM if 6:1, etc.
+//   - externalGearRatio is 1.0 if there's no external chaining/belting that changes ratio.
+inline double LG_BOT_TRACK_WIDTH   =   15.5;    // measure in inches 
+inline double LG_BOT_WHEEL_DIAM    =   lemlib::Omniwheel::NEW_4;
+inline double LG_BOT_WHEEL_RPM     =   360;    // for 18:1 gearset
+inline double LG_BOT_EXT_GEAR_RATIO=   2;
 
-inline MotorConfig LIFT_LEFT_MOTOR = {-8, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
-inline MotorConfig LIFT_RIGHT_MOTOR = {10, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
-
-inline MotorConfig INTAKE_MOTOR = {2, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
-inline MotorConfig CLAMP_MOTOR = {9, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 
 //control constants
 inline float clampedStatePosition = 0.0;
