@@ -104,8 +104,8 @@ inline MotorConfig INTAKE_MOTOR = {2, pros::v5::MotorGears::ratio_18_to_1, pros:
 inline MotorConfig CLAMP_MOTOR = {9, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 
 //control constants
-inline float clampedStatePosition = 0.0;
-inline float unclampedStatePosition = -80;
+inline float clampedStatePosition = 0;
+inline float unclampedStatePosition = 240;
 //float clampCurrentPosition;
 inline float clampDesiredState;
 
