@@ -56,11 +56,6 @@ public:
 
 private:
     // -------------- Motors --------------
-    pros::Motor leftDriveA;
-    pros::Motor leftDriveB;
-    pros::Motor rightDriveA;
-    pros::Motor rightDriveB;
-
     pros::Motor intakeMotor;
     pros::Motor hookIntakeMotor;
 

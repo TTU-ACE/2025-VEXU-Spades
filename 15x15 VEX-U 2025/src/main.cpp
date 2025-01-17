@@ -66,6 +66,7 @@ void opcontrol() {
         double fwd = master.get_analog(ANALOG_LEFT_Y); 
         double turn = master.get_analog(ANALOG_RIGHT_X);
         rob.arcadeDrive(fwd, turn);
+        std::cout << "Fwd: " << fwd << ", Turn: " << turn << std::endl;
 
         // L1 => intake forward, L2 => intake reverse
         if(master.get_digital(DIGITAL_L1)) {

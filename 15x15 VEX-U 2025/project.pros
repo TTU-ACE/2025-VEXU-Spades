@@ -1,51 +1,54 @@
 {
     "py/object": "pros.conductor.project.Project",
     "py/state": {
-        "project_name": "LemLib",
+        "project_name": "15x15 VEX-U 2025",
         "target": "v5",
         "templates": {
-            "hardware": {
-                "location": "C:\\Users\\Liam Teale\\AppData\\Roaming\\PROS\\templates\\hardware@0.4.2",
+            "LemLib": {
+                "location": "C:\\Users\\priva\\AppData\\Roaming\\PROS\\templates\\LemLib@0.5.5",
                 "metadata": {
-                    "origin": "local"
+                    "origin": "LemLib"
                 },
-                "name": "hardware",
+                "name": "LemLib",
                 "py/object": "pros.conductor.templates.local_template.LocalTemplate",
                 "supported_kernels": "^4.1.1",
                 "system_files": [
-                    "include\\hardware\\Encoder\\ADIEncoder.hpp",
-                    "include\\hardware\\Encoder\\V5RotationSensor.hpp",
-                    "include\\hardware\\Encoder\\Encoder.hpp",
-                    "include\\hardware\\IMU\\V5InertialSensor.hpp",
-                    "include\\hardware\\IMU\\IMU.hpp",
-                    "include\\hardware\\Motor\\MotorGroup.hpp",
-                    "firmware\\hardware.a",
-                    "include\\hardware\\Port.hpp",
-                    "include\\hardware\\Motor\\Motor.hpp"
-                ],
-                "target": "v5",
-                "user_files": [],
-                "version": "0.4.2"
-            },
-            "hot-cold-asset": {
-                "location": "C:\\Users\\Liam Teale\\AppData\\Roaming\\PROS\\templates\\hot-cold-asset@1.0.1",
-                "metadata": {
-                    "origin": "local"
-                },
-                "name": "hot-cold-asset",
-                "py/object": "pros.conductor.templates.local_template.LocalTemplate",
-                "supported_kernels": "^4.1.0",
-                "system_files": [
+                    "include\\lemlib\\pid.hpp",
+                    "include\\lemlib\\pose.hpp",
+                    "include\\lemlib\\api.hpp",
+                    "include\\lemlib\\logger\\baseSink.hpp",
+                    "include\\lemlib\\logger\\stdout.hpp",
+                    "include\\lemlib\\chassis\\odom.hpp",
+                    "include\\lemlib\\exitcondition.hpp",
+                    "include\\fmt\\core.h",
+                    "include\\fmt\\args.h",
                     "firmware\\hot-cold-asset.mk",
-                    "include\\hot-cold-asset\\asset.hpp",
-                    "firmware\\hot-cold-asset.a"
+                    "include\\lemlib\\logger\\buffer.hpp",
+                    "include\\lemlib\\logger\\infoSink.hpp",
+                    "include\\fmt\\LICENSE",
+                    "firmware\\LemLib.a",
+                    "include\\lemlib\\README.md",
+                    "include\\lemlib\\asset.hpp",
+                    "include\\lemlib\\util.hpp",
+                    "include\\lemlib\\driveCurve.hpp",
+                    "include\\lemlib\\logger\\message.hpp",
+                    "include\\lemlib\\chassis\\trackingWheel.hpp",
+                    "include\\fmt\\format.h",
+                    "static\\example.txt",
+                    "include\\lemlib\\LICENSE",
+                    "include\\lemlib\\VERSION",
+                    "include\\lemlib\\chassis\\chassis.hpp",
+                    "include\\lemlib\\logger\\telemetrySink.hpp",
+                    "include\\fmt\\format-inl.h",
+                    "include\\lemlib\\logger\\logger.hpp",
+                    "include\\lemlib\\timer.hpp"
                 ],
                 "target": "v5",
                 "user_files": [],
-                "version": "1.0.1"
+                "version": "0.5.5"
             },
             "kernel": {
-                "location": "C:\\Users\\Liam Teale\\AppData\\Roaming\\PROS\\templates\\kernel@4.1.1",
+                "location": "C:\\Users\\priva\\AppData\\Roaming\\PROS\\templates\\kernel@4.1.1",
                 "metadata": {
                     "cold_addr": "58720256",
                     "cold_output": "bin/cold.package.bin",
@@ -117,27 +120,8 @@
                 ],
                 "version": "4.1.1"
             },
-            "lemlog": {
-                "location": "C:\\Users\\Liam Teale\\AppData\\Roaming\\PROS\\templates\\lemlog@0.2.2",
-                "metadata": {
-                    "origin": "local"
-                },
-                "name": "lemlog",
-                "py/object": "pros.conductor.templates.local_template.LocalTemplate",
-                "supported_kernels": "^4.1.1",
-                "system_files": [
-                    "firmware\\lemlog.a",
-                    "include\\lemlog\\logger\\Sink.hpp",
-                    "include\\lemlog\\logger\\sinks\\sd-card.hpp",
-                    "include\\lemlog\\logger\\sinks\\terminal.hpp",
-                    "include\\lemlog\\logger\\Helper.hpp"
-                ],
-                "target": "v5",
-                "user_files": [],
-                "version": "0.2.2"
-            },
             "liblvgl": {
-                "location": "C:\\Users\\Liam Teale\\AppData\\Roaming\\PROS\\templates\\liblvgl@8.3.8",
+                "location": "C:\\Users\\priva\\AppData\\Roaming\\PROS\\templates\\liblvgl@8.3.8",
                 "metadata": {
                     "origin": "pros-mainline"
                 },
@@ -311,27 +295,6 @@
                 "target": "v5",
                 "user_files": [],
                 "version": "8.3.8"
-            },
-            "units": {
-                "location": "C:\\Users\\Liam Teale\\AppData\\Roaming\\PROS\\templates\\units@0.6.0",
-                "metadata": {
-                    "origin": "local"
-                },
-                "name": "units",
-                "py/object": "pros.conductor.templates.local_template.LocalTemplate",
-                "supported_kernels": "^4.1.1",
-                "system_files": [
-                    "firmware\\units.a",
-                    "include\\units\\units.hpp",
-                    "include\\units\\Vector2D.hpp",
-                    "include\\units\\Pose.hpp",
-                    "include\\units\\Vector3D.hpp",
-                    "include\\units\\Angle.hpp",
-                    "include\\units\\Temperature.hpp"
-                ],
-                "target": "v5",
-                "user_files": [],
-                "version": "0.6.0"
             }
         },
         "upload_options": {},

@@ -21,8 +21,8 @@ struct MotorConfig {
 // Example: Motor(portNumber, gearset, motorUnits)
 inline MotorConfig LEFT_DRIVE_MOTOR_A  = {10, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
 inline MotorConfig LEFT_DRIVE_MOTOR_B  = { 7, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
-inline MotorConfig RIGHT_DRIVE_MOTOR_A = {20, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
-inline MotorConfig RIGHT_DRIVE_MOTOR_B = {18, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+inline MotorConfig RIGHT_DRIVE_MOTOR_A = {-20, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+inline MotorConfig RIGHT_DRIVE_MOTOR_B = {-18, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
 
 inline MotorConfig HOOK_INTAKE_MOTOR  = { 6, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 inline MotorConfig INTAKE_MOTOR       = {17, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};

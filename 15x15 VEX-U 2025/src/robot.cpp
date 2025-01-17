@@ -4,12 +4,7 @@
 #include "pros/rtos.hpp"
 
 Robot::Robot()
-    : leftDriveA(LEFT_DRIVE_MOTOR_A.port, LEFT_DRIVE_MOTOR_A.gearset, LEFT_DRIVE_MOTOR_A.units),
-      leftDriveB(LEFT_DRIVE_MOTOR_B.port, LEFT_DRIVE_MOTOR_B.gearset, LEFT_DRIVE_MOTOR_B.units),
-      rightDriveA(RIGHT_DRIVE_MOTOR_A.port, RIGHT_DRIVE_MOTOR_A.gearset, RIGHT_DRIVE_MOTOR_A.units),
-      rightDriveB(RIGHT_DRIVE_MOTOR_B.port, RIGHT_DRIVE_MOTOR_B.gearset, RIGHT_DRIVE_MOTOR_B.units),
-
-      intakeMotor(INTAKE_MOTOR.port, INTAKE_MOTOR.gearset, INTAKE_MOTOR.units),
+    : intakeMotor(INTAKE_MOTOR.port, INTAKE_MOTOR.gearset, INTAKE_MOTOR.units),
       hookIntakeMotor(HOOK_INTAKE_MOTOR.port, HOOK_INTAKE_MOTOR.gearset, HOOK_INTAKE_MOTOR.units),
 
       hangMotorA(HANG_MOTOR_A.port, HANG_MOTOR_A.gearset, HANG_MOTOR_A.units),
@@ -49,14 +44,6 @@ Robot::Robot()
      // ----------------------
     // Set motor reversing
     // ----------------------
-
-    // Left side is not reversed
-    leftDriveA.set_reversed(false);
-    leftDriveB.set_reversed(false);
-
-    // Right side is reversed
-    rightDriveA.set_reversed(true);
-    rightDriveB.set_reversed(true);
 
     // If intake or other motors need reversing, do so here:
     intakeMotor.set_reversed(false);
