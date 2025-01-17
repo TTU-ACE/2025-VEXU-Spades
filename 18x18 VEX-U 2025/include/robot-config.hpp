@@ -123,8 +123,8 @@ inline double LG_BOT_EXT_GEAR_RATIO=   2;
 
 
 //control constants
-inline float clampedStatePosition = 0.0;
-inline float unclampedStatePosition = -80;
+inline float clampedStatePosition = 0;
+inline float unclampedStatePosition = 240;
 //float clampCurrentPosition;
 inline float clampDesiredState;
 
