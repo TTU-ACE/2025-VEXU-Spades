@@ -16,6 +16,7 @@ bool wasYPressedLast = false;
 void initialize() {
     pros::lcd::initialize();
     pros::lcd::set_text(1, "Small Bot: Hello from PROS!");
+    std::cout << "initialize here" << std::endl;
 
     // The Robot constructor automatically sets up motors and starting positions
     // Additional custom init can be done here if needed
@@ -51,16 +52,17 @@ void autonomous() {
  */
 void opcontrol() {
     pros::Controller master(pros::E_CONTROLLER_MASTER);
+    std::cout << "opcontrol here" <<std::endl;
 
     // Track first-time teleop actions if needed
-    bool teleopStarted = false;
+    //bool teleopStarted = false;
 
     while(true) {
-        if(!teleopStarted) {
-            // example “move to init position”
-            rob.LBInit();
-            teleopStarted = true;
-        }
+        // if(!teleopStarted) {
+        //     // example “move to init position”
+        //     rob.LBInit();
+        //     teleopStarted = true;
+        // }
 
         // arcade drive from sticks
         double fwd = master.get_analog(ANALOG_LEFT_Y); 
@@ -69,31 +71,19 @@ void opcontrol() {
         std::cout << "Fwd: " << fwd << ", Turn: " << turn << std::endl;
 
         // L1 => intake forward, L2 => intake reverse
-        if(master.get_digital(DIGITAL_L1)) {
-            rob.setIntakeSpeed(INTAKE_SPEED_PCT);
-        } else if(master.get_digital(DIGITAL_L2)) {
-            rob.setIntakeSpeed(-INTAKE_SPEED_PCT);
-        } else {
-            rob.stopIntake();
-        }
+        if(master.get_digital(DIGITAL_L1))      {rob.setIntakeSpeed(INTAKE_SPEED_PCT);} 
+        else if(master.get_digital(DIGITAL_L2)) {rob.setIntakeSpeed(-INTAKE_SPEED_PCT);} 
+        else                                    {rob.stopIntake();}
 
         // R1 => hook intake forward, R2 => hook intake reverse
-        if(master.get_digital(DIGITAL_R1)) {
-            rob.setHookIntakeSpeed(HOOK_INTAKE_SPEED_PCT);
-        } else if(master.get_digital(DIGITAL_R2)) {
-            rob.setHookIntakeSpeed(-HOOK_INTAKE_SPEED_PCT);
-        } else {
-            rob.stopHookIntake();
-        }
+        if(master.get_digital(DIGITAL_R1))      {rob.setHookIntakeSpeed(HOOK_INTAKE_SPEED_PCT);} 
+        else if(master.get_digital(DIGITAL_R2)) {rob.setHookIntakeSpeed(-HOOK_INTAKE_SPEED_PCT);} 
+        else                                    {rob.stopHookIntake();}
 
         // UP => raise hang, DOWN => lower hang
-        if(master.get_digital(DIGITAL_UP)) {
-            rob.raiseHang();
-        } else if(master.get_digital(DIGITAL_DOWN)) {
-            rob.lowerHang();
-        } else {
-            rob.stopHang();
-        }
+        if(master.get_digital(DIGITAL_UP))        {rob.raiseHang();} 
+        else if(master.get_digital(DIGITAL_DOWN)) {rob.lowerHang();} 
+        else                                      {rob.stopHang();}
 
         // Single-press toggling of clamp with Y
         bool yPressedNow = master.get_digital(DIGITAL_Y);
@@ -118,19 +108,13 @@ void opcontrol() {
         wasYPressedLast = yPressedNow;
 
         // Left => Lady Browns down
-        if(master.get_digital(DIGITAL_LEFT)) {
-            rob.LBDown();
-        }
+        if(master.get_digital(DIGITAL_LEFT)) {rob.LBDown();}
 
         // A => move Lady Browns to A-button angle
-        if(master.get_digital(DIGITAL_A)) {
-            rob.LBToAButton();
-        }
+        if(master.get_digital(DIGITAL_A)) {rob.LBToAButton();}
 
         // B => move Lady Browns to init angle
-        if(master.get_digital(DIGITAL_B)) {
-            rob.LBInit();
-        }
+        if(master.get_digital(DIGITAL_B)) {rob.LBInit();}
 
         // X => toggle detect_blue_mode
         if(master.get_digital_new_press(DIGITAL_X)) {

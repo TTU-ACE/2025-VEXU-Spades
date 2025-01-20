@@ -26,7 +26,7 @@ inline MotorConfig RIGHT_DRIVE_MOTOR_B = {-18, pros::v5::MotorGears::ratio_18_to
 
 inline MotorConfig HOOK_INTAKE_MOTOR  = { 6, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 inline MotorConfig INTAKE_MOTOR       = {17, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
-inline MotorConfig HANG_MOTOR_A       = {15, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
+inline MotorConfig HANG_MOTOR_A       = {-15, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 inline MotorConfig HANG_MOTOR_B       = { 5, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 
 inline MotorConfig CLAMP_MOTOR        = { 9, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};

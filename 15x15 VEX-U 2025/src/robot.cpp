@@ -46,14 +46,14 @@ Robot::Robot()
     // ----------------------
 
     // If intake or other motors need reversing, do so here:
-    intakeMotor.set_reversed(false);
-    hookIntakeMotor.set_reversed(false);
-    hangMotorA.set_reversed(false);
-    hangMotorB.set_reversed(false);
-    clampMotor.set_reversed(false);
-    tiltMotor.set_reversed(false);
-    lbLeftMotor.set_reversed(false);
-    lbRightMotor.set_reversed(false);
+    // intakeMotor.set_reversed(false);
+    // hookIntakeMotor.set_reversed(false);
+    // hangMotorA.set_reversed(false);
+    // hangMotorB.set_reversed(false);
+    // clampMotor.set_reversed(false);
+    // tiltMotor.set_reversed(false);
+    // lbLeftMotor.set_reversed(false);
+    // lbRightMotor.set_reversed(false);
 
 
     // Configure motors that need special brake modes or torque
@@ -72,22 +72,22 @@ Robot::Robot()
     lbRightMotor.tare_position();
 
     // Move to your initial positions
-    spinTiltToAngle(TILT_INIT_ANGLE);
-    pros::delay(750);
+    // spinTiltToAngle(TILT_INIT_ANGLE);
+    // pros::delay(750);
 
     // Clamp up
-    clampMotor.move_absolute(CLAMP_UP_ANGLE, getMaxVelocity(clampMotor));
-    spinClampToAngle(CLAMP_UP_ANGLE);
-    pros::delay(500);
+    // clampMotor.move_absolute(CLAMP_UP_ANGLE, getMaxVelocity(clampMotor));
+    // spinClampToAngle(CLAMP_UP_ANGLE);
+    // pros::delay(500);
 
     // Lady Brown arms down
-    lbLeftMotor.move_absolute(LB_LEFT_DOWN_ANGLE, getMaxVelocity(lbLeftMotor));
-    lbRightMotor.move_absolute(LB_RIGHT_DOWN_ANGLE, getMaxVelocity(lbRightMotor));
+    // lbLeftMotor.move_absolute(LB_LEFT_DOWN_ANGLE, getMaxVelocity(lbLeftMotor));
+    // lbRightMotor.move_absolute(LB_RIGHT_DOWN_ANGLE, getMaxVelocity(lbRightMotor));
 
     // Move them
-    spinLBLeftToAngle(LB_LEFT_DOWN_ANGLE, false);
-    spinLBRightToAngle(LB_RIGHT_DOWN_ANGLE, true);
-    pros::delay(750);
+    // spinLBLeftToAngle(LB_LEFT_DOWN_ANGLE, false);
+    // spinLBRightToAngle(LB_RIGHT_DOWN_ANGLE, true);
+    // pros::delay(750);
 
     // could do more setup if needed
 }
@@ -181,9 +181,9 @@ void Robot::spinClampToAngle(double angle) {
  */
 void Robot::spinTiltToAngle(double angle) {
     tiltMotor.move_absolute(angle, 100);
-    while (fabs(tiltMotor.get_position() - angle) > 5) {
-        pros::delay(20);
-    }
+    // while (fabs(tiltMotor.get_position() - angle) > 5) {
+    //     pros::delay(20);
+    // }
 }
 
 /**
