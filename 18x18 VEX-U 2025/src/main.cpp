@@ -88,7 +88,6 @@ void autonomous() {
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	double speed = 200;
 	std::cout <<"opcontrol_init_check_here"<< std::endl;
 
 	while (true) {
@@ -97,8 +96,11 @@ void opcontrol() {
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
 
 		
-		rob.setConveyorSpeed(master.get_digital(DIGITAL_R2) ? -speed : 0);
-		rob.setIntakeSpeed(master.get_digital(DIGITAL_R1) ? speed : 0);
+		rob.setConveyorSpeed(master.get_digital(DIGITAL_R1) ? -conveyorSpeedConstant : 0);
+		rob.setConveyorSpeed(master.get_digital(DIGITAL_R2) ? conveyorSpeedConstant: 0);
+
+		rob.setIntakeSpeed(master.get_digital(DIGITAL_L1) ? intakeSpeedConstant : 0);
+		rob.setIntakeSpeed(master.get_digital(DIGITAL_L2) ? -intakeSpeedConstant : 0);
 		
 		// Set and hold clamp position
 		if (master.get_digital(DIGITAL_Y)) 		{rob.setClamp(clampedStatePosition);} //clamp
