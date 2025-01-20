@@ -7,8 +7,9 @@ Robot::Robot()
     : intakeMotor(INTAKE_MOTOR.port, INTAKE_MOTOR.gearset, INTAKE_MOTOR.units),
       hookIntakeMotor(HOOK_INTAKE_MOTOR.port, HOOK_INTAKE_MOTOR.gearset, HOOK_INTAKE_MOTOR.units),
 
-      hangMotorA(HANG_MOTOR_A.port, HANG_MOTOR_A.gearset, HANG_MOTOR_A.units),
-      hangMotorB(HANG_MOTOR_B.port, HANG_MOTOR_B.gearset, HANG_MOTOR_B.units),
+      //hangMotorA(HANG_MOTOR_A.port, HANG_MOTOR_A.gearset, HANG_MOTOR_A.units),
+      //hangMotorB(HANG_MOTOR_B.port, HANG_MOTOR_B.gearset, HANG_MOTOR_B.units),
+      hang({HANG_MOTOR_A.port, HANG_MOTOR_B.port}, HANG_MOTOR_A.gearset),
 
       clampMotor(CLAMP_MOTOR.port, CLAMP_MOTOR.gearset, CLAMP_MOTOR.units),
       tiltMotor(TILT_MOTOR.port, TILT_MOTOR.gearset, TILT_MOTOR.units),
@@ -61,8 +62,9 @@ Robot::Robot()
     tiltMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     lbLeftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     lbRightMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    hangMotorA.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-    hangMotorB.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    //hangMotorA.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    //hangMotorB.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    hang.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 
     // If your small bot initialization includes setting initial angles:
@@ -139,17 +141,20 @@ void Robot::stopHookIntake() {
  */
 void Robot::raiseHang() {
     // Move both hang motors up
-    hangMotorA.move_velocity(HANG_SPEED_PCT * 6.0);
-    hangMotorB.move_velocity(HANG_SPEED_PCT * 6.0);
+    //hangMotorA.move_velocity(HANG_SPEED_PCT * 6.0);
+    //hangMotorB.move_velocity(HANG_SPEED_PCT * 6.0);
+    hang.move_absolute(HANG_RAISED_POSITION, HANG_SPEED_PCT);
 }
 void Robot::lowerHang() {
     // Move both hang motors down
-    hangMotorA.move_velocity(-HANG_SPEED_PCT * 6.0);
-    hangMotorB.move_velocity(-HANG_SPEED_PCT * 6.0);
+    //hangMotorA.move_velocity(-HANG_SPEED_PCT * 6.0);
+    //hangMotorB.move_velocity(-HANG_SPEED_PCT * 6.0);
+    hang.move_absolute(HANG_LOWERED_POSITION, HANG_SPEED_PCT);
 }
 void Robot::stopHang() {
-    hangMotorA.move_velocity(0);
-    hangMotorB.move_velocity(0);
+    //hangMotorA.move_velocity(0);
+    //hangMotorB.move_velocity(0);
+    hang.move_velocity(0);
 }
 
 /**

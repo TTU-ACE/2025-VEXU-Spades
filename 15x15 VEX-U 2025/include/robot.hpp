@@ -60,8 +60,9 @@ private:
     pros::Motor hookIntakeMotor;
 
     // Hang is made of two motors, group them
-    pros::Motor hangMotorA;
-    pros::Motor hangMotorB;
+    //pros::Motor hangMotorA;
+    //pros::Motor hangMotorB;
+    pros::MotorGroup hang;
 
     // Single clamp, tilt, lady brown motors
     pros::Motor clampMotor;

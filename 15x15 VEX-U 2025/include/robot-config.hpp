@@ -123,6 +123,10 @@ inline double LB_RIGHT_DOWN_ANGLE    = 0.0;
 inline double LB_RIGHT_ABUTTON_ANGLE = -67.25;
 inline double LB_RIGHT_INIT_ANGLE    = -180.0;
 
+//lift positions
+inline double HANG_LOWERED_POSITION = 0.0;
+inline double HANG_RAISED_POSITION  = 0.0;
+
 // Hang / Arm speeds
 inline int    HANG_SPEED_PCT = 100;
 
