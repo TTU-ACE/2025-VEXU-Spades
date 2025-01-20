@@ -20,15 +20,11 @@ class Robot {
         // Clamping mechanism functions
         void setClamp(double position);
         void releaseClamp();
-        //void updateClamp();
 
         // Conveyor functions
         void setConveyorSpeed(double speed);
 
         // Lift functions
-        // TODO: Hold position for lift with setLift()
-        //void raiseLift(double speed);
-        //void lowerLift(double speed);
         void setLift(double position);
         void releaseLift();
         

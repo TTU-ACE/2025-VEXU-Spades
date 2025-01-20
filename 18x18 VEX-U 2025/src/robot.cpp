@@ -43,14 +43,6 @@ void Robot::setIntakeSpeed(double speed) {
 }
 
 void Robot::setClamp(double position) {
-    //determine state based off input
-    //     switch (state) {
-    //     case 0: 
-    //        clampDesiredState = clampedStatePosition; 
-    //     case 1:
-    //         clampDesiredState = unclampedStatePosition;
-
-    // }
     const int32_t maxRPM = getMaxVelocity(clampMotor);  // Modify if needed
     //get encoder value
     std::cout << "Settting Clamp Position: " << position << std::endl;
@@ -82,14 +74,6 @@ void Robot::setConveyorSpeed(double speed) {
 }
 
 void Robot::setLift(double position) {
-    //determine state by user input
-    // switch (state) {
-    //     case 0:
-    //         liftDesiredState = liftedStatePosition;
-    //     case 1:
-    //         liftDesiredState = loweredStatePosition;
-    // }
-
     const int32_t maxRPM = getMaxVelocity(LIFT_RIGHT_MOTOR.port);  // Modify if needed
     //get encoder value
     std::cout << "Settting Lift Position: " << position << std::endl;
@@ -105,21 +89,6 @@ void Robot::setLift(double position) {
 void Robot::releaseLift() {
     lift.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 }
-
-/*void Robot::raiseLift(double speed) {
-    lift.move_velocity(speed);
-    //std::cout<<"raiseLift"<< std::endl;
-}
-
-void Robot::lowerLift(double speed) {
-    lift.move_velocity(-speed);
-    //std::cout<<"lowerLift"<< std::endl;
-}
-
-void Robot::stopLift() {
-    lift.brake();
-    //std::cout<<"stopLift"<< std::endl;
-}*/
 
 void Robot::displayClampPosition() {
     std::cout << "Clamp Position: " << clampMotor.get_position() << std::endl;
