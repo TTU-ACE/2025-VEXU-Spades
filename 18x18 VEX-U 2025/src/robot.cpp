@@ -13,7 +13,7 @@ Robot::Robot()
                         LG_BOT_TRACK_WIDTH, // Track width
                         LG_BOT_WHEEL_DIAM,  // Using new 4" omnis
                         LG_BOT_WHEEL_RPM,   // Drivetrain rpms
-                        LG_BOT_EXT_GEAR_RATIO
+                        0
       ),
       chassis(drivetrain, linearController, angularController, driveSensors, &throttleCurve, &steerCurve),  // Chassis for path following
 
