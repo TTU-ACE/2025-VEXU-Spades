@@ -35,7 +35,7 @@ inline MotorConfig LBROWN_LEFT_MOTOR  = {19, pros::v5::MotorGears::ratio_18_to_1
 inline MotorConfig LBROWN_RIGHT_MOTOR = {16, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 
 // Sensors
-inline const uint8_t imu_port = 4;
+inline signed char imu_port = 4;
 
 // ----------------------
 // Lemlib Drivetrain
@@ -79,6 +79,21 @@ inline lemlib::ExpoDriveCurve steerCurve(
     3,
     10,
     1.019
+);
+
+// Inertial Sensor on port 4
+//inline pros::Imu imu(4);
+
+// 3) Odom sensors
+// If you do not have tracking wheels or IMU for your small bot, set these to nullptr.
+// If you have an inertial sensor, pass its pointer. 
+inline lemlib::OdomSensors driveSensors(
+    nullptr, // vertical tracking wheel
+    nullptr, // second vertical tracking wheel
+    nullptr, // horizontal tracking wheel
+    nullptr, // second horizontal tracking wheel
+    nullptr
+    //&imu  // inertial sensor pointer (e.g. new pros::Imu(...))
 );
 
 // Drivetrain mechanical parameters

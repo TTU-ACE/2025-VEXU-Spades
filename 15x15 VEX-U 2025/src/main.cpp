@@ -18,8 +18,10 @@ bool wasYPressedLast = false;
  */
 void initialize() {
     pros::lcd::initialize();
-    pros::lcd::set_text(1, "Small Bot: Hello from PROS!");
-    std::cout << "initialize here" << std::endl;
+    //rob.chassis.calibrate();
+    // pros::lcd::set_text(1, "Small Bot: Hello from PROS!");
+    // std::cout << "initialize here" << std::endl;
+    debugln("Small Bot Initialized", 1);
 
     // The Robot constructor automatically sets up motors and starting positions
     // Additional custom init can be done here if needed
@@ -41,21 +43,21 @@ void competition_initialize() {
  * Autonomous code
  */
 void autonomous() {
-    debugln("Autonomous Started");
+    //debugln("Autonomous", 1);
     // // Example: clamp down and move forward
     // rob.clampIt();   
     // rob.arcadeDrive(100, 0); // forward
     // pros::delay(1000);
     // rob.arcadeDrive(0, 0);   // stop
     // pros::delay(500);
-    rob.chassis.follow(example_txt, 15, j`, false); // Replace with path generated from https://path.jerryio.com/
+    rob.chassis.follow(example_txt, 15, 10000, false); // Replace with path generated from https://path.jerryio.com/
     
     while(rob.chassis.isInMotion()) {
-        debugln("Moving chassis to position...");
+        //debugln("Moving chassis to position...");
         pros::delay(500);
     }
     //rob.chassis.waitUntilDone();
-    debugln("Autonomous Finished.");
+    //debugln("Autonomous Finished.");
 
 }
 
@@ -64,10 +66,13 @@ void autonomous() {
  */
 void opcontrol() {
     pros::Controller master(pros::E_CONTROLLER_MASTER);
-    std::cout << "opcontrol here" << std::endl;
+    // std::cout << "opcontrol here" << std::endl;
+    char *msg;
+    debugln("Opcontrol", 1);
+
 
     // Track first-time teleop actions if needed
-    //bool teleopStarted = false;
+    // bool teleopStarted = false;
 
     while(true) {
         // if(!teleopStarted) {
@@ -80,67 +85,75 @@ void opcontrol() {
         double fwd = master.get_analog(ANALOG_LEFT_Y); 
         double turn = master.get_analog(ANALOG_RIGHT_X);
         rob.arcadeDrive(fwd, turn);
-        std::cout << "Fwd: " << fwd << ", Turn: " << turn << std::endl;
+        // std::cout << "Fwd: " << fwd << ", Turn: " << turn << std::endl;
 
-        // L1 => intake forward, L2 => intake reverse
-        if(master.get_digital(DIGITAL_L1))      {rob.setIntakeSpeed(INTAKE_SPEED_PCT);} 
-        else if(master.get_digital(DIGITAL_L2)) {rob.setIntakeSpeed(-INTAKE_SPEED_PCT);} 
-        else                                    {rob.stopIntake();}
+    //     sprintf(msg, "Fwd (raw): %d, Turn (raw): %d", fwd, turn);
+    //     debugln(msg, 2);  // On line 2
 
-        // R1 => hook intake forward, R2 => hook intake reverse
-        if(master.get_digital(DIGITAL_R1))      {rob.setHookIntakeSpeed(HOOK_INTAKE_SPEED_PCT);} 
-        else if(master.get_digital(DIGITAL_R2)) {rob.setHookIntakeSpeed(-HOOK_INTAKE_SPEED_PCT);} 
-        else                                    {rob.stopHookIntake();}
+    //     float hangPos = rob.getHangPosition();
+    //     float clampPos = rob.getClampPosition();
+    //     sprintf(msg, "Clamp (deg): %d, Hang (deg): %d", hangPos, clampPos);
+    //     debugln(msg, 3);  // On line 3
 
-        // UP => raise hang, DOWN => lower hang
-        if(master.get_digital(DIGITAL_UP))        {rob.raiseHang();} 
-        else if(master.get_digital(DIGITAL_DOWN)) {rob.lowerHang();} 
-        else                                      {rob.stopHang();}
+    //     // L1 => intake forward, L2 => intake reverse
+    //     if(master.get_digital(DIGITAL_L1))      {rob.setIntakeSpeed(INTAKE_SPEED_PCT);} 
+    //     else if(master.get_digital(DIGITAL_L2)) {rob.setIntakeSpeed(-INTAKE_SPEED_PCT);} 
+    //     else                                    {rob.stopIntake();}
 
-        // Single-press toggling of clamp with Y
-        bool yPressedNow = master.get_digital(DIGITAL_Y);
-        if(yPressedNow && !wasYPressedLast) {
-            // just changed from not pressed to pressed
-            if(yButtonState == ButtonToggleState::NOT_BEGUN) {
-                yButtonState = ButtonToggleState::PRESSED;
-            }
-        }
-        else if(!yPressedNow && wasYPressedLast) {
-            // just changed from pressed to not pressed
-            if(yButtonState == ButtonToggleState::PRESSED) {
-                yButtonState = ButtonToggleState::FINISHED;
-                // we interpret that as a single press
-                rob.clampIt();
-            }
-        }
-        else if(yButtonState == ButtonToggleState::FINISHED) {
-            // reset to allow next press
-            yButtonState = ButtonToggleState::NOT_BEGUN;
-        }
-        wasYPressedLast = yPressedNow;
+    //     // R1 => hook intake forward, R2 => hook intake reverse
+    //     if(master.get_digital(DIGITAL_R1))      {rob.setHookIntakeSpeed(HOOK_INTAKE_SPEED_PCT);} 
+    //     else if(master.get_digital(DIGITAL_R2)) {rob.setHookIntakeSpeed(-HOOK_INTAKE_SPEED_PCT);} 
+    //     else                                    {rob.stopHookIntake();}
 
-        // Left => Lady Browns down
-        if(master.get_digital(DIGITAL_LEFT)) {rob.LBDown();}
+    //     // UP => raise hang, DOWN => lower hang
+    //     if(master.get_digital(DIGITAL_UP))        {rob.raiseHang();} 
+    //     else if(master.get_digital(DIGITAL_DOWN)) {rob.lowerHang();} 
+    //     else                                      {rob.stopHang();}
 
-        // A => move Lady Browns to A-button angle
-        if(master.get_digital(DIGITAL_A)) {rob.LBToAButton();}
+    //     // Single-press toggling of clamp with Y
+    //     bool yPressedNow = master.get_digital(DIGITAL_Y);
+    //     if(yPressedNow && !wasYPressedLast) {
+    //         // just changed from not pressed to pressed
+    //         if(yButtonState == ButtonToggleState::NOT_BEGUN) {
+    //             yButtonState = ButtonToggleState::PRESSED;
+    //         }
+    //     }
+    //     else if(!yPressedNow && wasYPressedLast) {
+    //         // just changed from pressed to not pressed
+    //         if(yButtonState == ButtonToggleState::PRESSED) {
+    //             yButtonState = ButtonToggleState::FINISHED;
+    //             // we interpret that as a single press
+    //             rob.clampIt();
+    //         }
+    //     }
+    //     else if(yButtonState == ButtonToggleState::FINISHED) {
+    //         // reset to allow next press
+    //         yButtonState = ButtonToggleState::NOT_BEGUN;
+    //     }
+    //     wasYPressedLast = yPressedNow;
 
-        // B => move Lady Browns to init angle
-        if(master.get_digital(DIGITAL_B)) {rob.LBInit();}
+    //     // Left => Lady Browns down
+    //     if(master.get_digital(DIGITAL_LEFT)) {rob.LBDown();}
 
-        // X => toggle detect_blue_mode
-        if(master.get_digital_new_press(DIGITAL_X)) {
-            if(detect_blue_mode) {
-                abort_detection = true;
-                detect_blue_mode = false;
-            } else {
-                detect_blue_mode = true;
-                abort_detection  = false;
-            }
-        }
+    //     // A => move Lady Browns to A-button angle
+    //     if(master.get_digital(DIGITAL_A)) {rob.LBToAButton();}
 
-        // If detection is toggled on, handle it
-        rob.handleRingDetection();
+    //     // B => move Lady Browns to init angle
+    //     if(master.get_digital(DIGITAL_B)) {rob.LBInit();}
+
+    //     // X => toggle detect_blue_mode
+    //     if(master.get_digital_new_press(DIGITAL_X)) {
+    //         if(detect_blue_mode) {
+    //             abort_detection = true;
+    //             detect_blue_mode = false;
+    //         } else {
+    //             detect_blue_mode = true;
+    //             abort_detection  = false;
+    //         }
+    //     }
+
+    //     // If detection is toggled on, handle it
+    //     rob.handleRingDetection();
 
         pros::delay(20);
     }

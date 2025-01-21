@@ -9,7 +9,7 @@ Robot::Robot()
 
       //hangMotorA(HANG_MOTOR_A.port, HANG_MOTOR_A.gearset, HANG_MOTOR_A.units),
       //hangMotorB(HANG_MOTOR_B.port, HANG_MOTOR_B.gearset, HANG_MOTOR_B.units),
-      hang({HANG_MOTOR_A.port, HANG_MOTOR_B.port}, HANG_MOTOR_A.gearset),
+      hang({HANG_MOTOR_A.port, HANG_MOTOR_B.port}, HANG_MOTOR_A.gearset, HANG_MOTOR_A.units),
 
       clampMotor(CLAMP_MOTOR.port, CLAMP_MOTOR.gearset, CLAMP_MOTOR.units),
       tiltMotor(TILT_MOTOR.port, TILT_MOTOR.gearset, TILT_MOTOR.units),
@@ -17,8 +17,8 @@ Robot::Robot()
       lbRightMotor(LBROWN_RIGHT_MOTOR.port, LBROWN_RIGHT_MOTOR.gearset, LBROWN_RIGHT_MOTOR.units),
 
       // Create MotorGroups for the drive base
-      leftBase({LEFT_DRIVE_MOTOR_A.port, LEFT_DRIVE_MOTOR_B.port}, LEFT_DRIVE_MOTOR_A.gearset),
-      rightBase({RIGHT_DRIVE_MOTOR_A.port, RIGHT_DRIVE_MOTOR_B.port}, RIGHT_DRIVE_MOTOR_A.gearset),
+      leftBase({LEFT_DRIVE_MOTOR_A.port, LEFT_DRIVE_MOTOR_B.port}, LEFT_DRIVE_MOTOR_A.gearset, LEFT_DRIVE_MOTOR_A.units),
+      rightBase({RIGHT_DRIVE_MOTOR_A.port, RIGHT_DRIVE_MOTOR_B.port}, RIGHT_DRIVE_MOTOR_A.gearset, LEFT_DRIVE_MOTOR_A.units),
 
       // Create a Lemlib Drivetrain
       drivetrain(
@@ -26,22 +26,9 @@ Robot::Robot()
          &rightBase,
          SM_BOT_TRACK_WIDTH,            // Track width in inches
          SM_BOT_WHEEL_DIAM,
-         SM_BOT_WHEEL_RPM,              // Wheel RPM (200 for 18:1)
-         SM_BOT_EXT_GEAR_RATIO          // External gear ratio
+         SM_BOT_WHEEL_RPM,               // Wheel RPM (200 for 18:1)
+         0
       ),
-
-      // Create Odometry Sensors
-      imu(imu_port),
-      // If you do not have tracking wheels or IMU for your small bot, set these to nullptr.
-      // If you have an inertial sensor, pass its pointer. 
-      driveSensors(
-        nullptr,    // vertical tracking wheel
-        nullptr,    // second vertical tracking wheel
-        nullptr,    // horizontal tracking wheel
-        nullptr,    // second horizontal tracking wheel
-        &imu        // inertial sensor pointer (e.g. new pros::Imu(...))
-      ),
-
 
       // Create the Chassis object
       chassis(
@@ -272,6 +259,18 @@ void Robot::handleRingDetection() {
         LBInit(); // or LBDown / LBUp
         detect_blue_mode = false;
     }
+}
+
+// Returns position of hang in degrees
+float Robot::getHangPosition()
+{
+    return hang.get_position(0); // Get position of one of the motors
+}
+
+// Returns position of clamp in degrees
+float Robot::getClampPosition()
+{
+    return clampMotor.get_position(0);
 }
 
 /**

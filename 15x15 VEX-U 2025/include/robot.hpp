@@ -46,6 +46,10 @@ public:
     // AI Vision or ring detection placeholder
     void handleRingDetection();
 
+    // Subsystem info
+    float getHangPosition();
+    float getClampPosition();
+
     // Utility
     float getMaxVelocity(pros::Motor motor);
 
@@ -72,10 +76,6 @@ private:
     pros::MotorGroup leftBase;
     pros::MotorGroup rightBase;
     lemlib::Drivetrain drivetrain;
-
-    // Sensors
-    pros::Imu imu;
-    lemlib::OdomSensors driveSensors;
 
     // -------------- States --------------
     bool isClamped;  // track clamp state
