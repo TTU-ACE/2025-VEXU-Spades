@@ -16,11 +16,11 @@ Robot::Robot()
       lbLeftMotor(LBROWN_LEFT_MOTOR.port, LBROWN_LEFT_MOTOR.gearset, LBROWN_LEFT_MOTOR.units),
       lbRightMotor(LBROWN_RIGHT_MOTOR.port, LBROWN_RIGHT_MOTOR.gearset, LBROWN_RIGHT_MOTOR.units),
 
-      // 1) Create MotorGroups for the drive base
+      // Create MotorGroups for the drive base
       leftBase({LEFT_DRIVE_MOTOR_A.port, LEFT_DRIVE_MOTOR_B.port}, LEFT_DRIVE_MOTOR_A.gearset),
       rightBase({RIGHT_DRIVE_MOTOR_A.port, RIGHT_DRIVE_MOTOR_B.port}, RIGHT_DRIVE_MOTOR_A.gearset),
 
-      // 2) Create a Lemlib Drivetrain
+      // Create a Lemlib Drivetrain
       drivetrain(
          &leftBase, 
          &rightBase,
@@ -30,7 +30,20 @@ Robot::Robot()
          SM_BOT_EXT_GEAR_RATIO          // External gear ratio
       ),
 
-      // 3) Create the Chassis object
+      // Create Odometry Sensors
+      imu(imu_port),
+      // If you do not have tracking wheels or IMU for your small bot, set these to nullptr.
+      // If you have an inertial sensor, pass its pointer. 
+      driveSensors(
+        nullptr,    // vertical tracking wheel
+        nullptr,    // second vertical tracking wheel
+        nullptr,    // horizontal tracking wheel
+        nullptr,    // second horizontal tracking wheel
+        &imu        // inertial sensor pointer (e.g. new pros::Imu(...))
+      ),
+
+
+      // Create the Chassis object
       chassis(
          drivetrain,
          linearController,      // From robot-config
@@ -107,12 +120,6 @@ void Robot::arcadeDrive(double forward, double turn) {
 void Robot::tankDrive(double leftVel, double rightVel) {
     chassis.tank(leftVel, rightVel);
 }
-
-// Once you add path following files, you can do e.g.:
-// void Robot::followPath(const std::string &pathName, double speed, int timeout, bool reversed) {
-//     chassis.follow(pathName, speed, timeout, reversed);
-// }
-
 
 /**
  * Sets the intake motor velocity

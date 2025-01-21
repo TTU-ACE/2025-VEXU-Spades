@@ -34,6 +34,9 @@ inline MotorConfig TILT_MOTOR         = { 8, pros::v5::MotorGears::ratio_18_to_1
 inline MotorConfig LBROWN_LEFT_MOTOR  = {19, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 inline MotorConfig LBROWN_RIGHT_MOTOR = {16, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 
+// Sensors
+inline const uint8_t imu_port = 4;
+
 // ----------------------
 // Lemlib Drivetrain
 // ----------------------
@@ -51,7 +54,7 @@ inline lemlib::ControllerSettings linearController(
     20.0   // max slew (acceleration)
 );
 
-// 2) Example angular motion controller gains
+// Example angular motion controller gains
 inline lemlib::ControllerSettings angularController(
     2.0,   // kP
     0.0,   // kI
@@ -64,18 +67,8 @@ inline lemlib::ControllerSettings angularController(
     0.0    // max slew (acceleration)
 );
 
-// 3) Odom sensors
-// If you do not have tracking wheels or IMU for your small bot, set these to nullptr.
-// If you have an inertial sensor, pass its pointer. 
-inline lemlib::OdomSensors driveSensors(
-    nullptr, // vertical tracking wheel
-    nullptr, // second vertical tracking wheel
-    nullptr, // horizontal tracking wheel
-    nullptr, // second horizontal tracking wheel
-    nullptr  // inertial sensor pointer (e.g. new pros::Imu(...))
-);
 
-// 4) Optional input curves for driver control
+// Optional input curves for driver control
 inline lemlib::ExpoDriveCurve throttleCurve(
     3,     // joystick deadband out of 127
     10,    // minimum output
@@ -88,15 +81,15 @@ inline lemlib::ExpoDriveCurve steerCurve(
     1.019
 );
 
-// 5) Drivetrain mechanical parameters
+// Drivetrain mechanical parameters
 //   - trackWidth and wheelDiameter might differ for your small bot. 
 //   - "wheelRPM" depends on gearset. For a standard 18:1 gearset, 
 //     free speed is ~200 RPM, or 600 RPM if 6:1, etc.
 //   - externalGearRatio is 1.0 if there's no external chaining/belting that changes ratio.
-inline double SM_BOT_TRACK_WIDTH   =  10.0;    // measure in inches 
-inline double SM_BOT_WHEEL_DIAM    =   lemlib::Omniwheel::NEW_4;    // e.g., 4" wheels
-inline double SM_BOT_WHEEL_RPM     = 200.0;    // for 18:1 gearset
-inline double SM_BOT_EXT_GEAR_RATIO=   1.0;
+inline double SM_BOT_TRACK_WIDTH   = 12.5;                      // measure in inches 
+inline double SM_BOT_WHEEL_DIAM    = lemlib::Omniwheel::NEW_4;  // e.g., 4" wheels
+inline double SM_BOT_WHEEL_RPM     = 200.0;                     // for 18:1 gearset
+inline double SM_BOT_EXT_GEAR_RATIO= 1.0;
 // TODO - set these to small bot's values
 
 // -----------------------------

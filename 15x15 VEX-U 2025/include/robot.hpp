@@ -16,11 +16,6 @@ public:
     void arcadeDrive(double forward, double turn);
     void tankDrive(double leftVel, double rightVel);
 
-
-    // Path Following Example (once you’re ready)
-    // void followPath(const std::string &pathName, double speed, int timeout, bool reversed);
-
-
     // --- Subsystem Controls ---
     void setIntakeSpeed(double pct);
     void stopIntake();
@@ -54,6 +49,9 @@ public:
     // Utility
     float getMaxVelocity(pros::Motor motor);
 
+    // Public Subsystems
+    lemlib::Chassis chassis;
+
 private:
     // -------------- Motors --------------
     pros::Motor intakeMotor;
@@ -74,7 +72,10 @@ private:
     pros::MotorGroup leftBase;
     pros::MotorGroup rightBase;
     lemlib::Drivetrain drivetrain;
-    lemlib::Chassis chassis;
+
+    // Sensors
+    pros::Imu imu;
+    lemlib::OdomSensors driveSensors;
 
     // -------------- States --------------
     bool isClamped;  // track clamp state

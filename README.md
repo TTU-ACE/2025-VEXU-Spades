@@ -26,3 +26,7 @@ Codebase for the 2024-2025 VEXU season for the Ace of Spades team
 - [ ] Add vision handling based on python logic and PROS vision implementation
 - [ ] Test lemlib pathfinding code
 - [ ] Build auto playbook
+
+
+# Post Competition
+- [ ] Add Odometry Tracking Wheels

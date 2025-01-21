@@ -1,7 +1,10 @@
 #include "main.h"
+#include "utils.hpp"
 #include "robot.hpp"
 #include "robot-config.hpp"
 #include <cmath>
+
+ASSET(example_txt) // From static/ folder
 
 // Create a global Robot instance
 Robot rob;
@@ -38,13 +41,22 @@ void competition_initialize() {
  * Autonomous code
  */
 void autonomous() {
-    pros::lcd::print(2, "Autonomous Started");
-    // Example: clamp down and move forward
-    rob.clampIt();   
-    rob.arcadeDrive(100, 0); // forward
-    pros::delay(1000);
-    rob.arcadeDrive(0, 0);   // stop
-    pros::delay(500);
+    debugln("Autonomous Started");
+    // // Example: clamp down and move forward
+    // rob.clampIt();   
+    // rob.arcadeDrive(100, 0); // forward
+    // pros::delay(1000);
+    // rob.arcadeDrive(0, 0);   // stop
+    // pros::delay(500);
+    rob.chassis.follow(example_txt, 15, j`, false); // Replace with path generated from https://path.jerryio.com/
+    
+    while(rob.chassis.isInMotion()) {
+        debugln("Moving chassis to position...");
+        pros::delay(500);
+    }
+    //rob.chassis.waitUntilDone();
+    debugln("Autonomous Finished.");
+
 }
 
 /**
@@ -52,7 +64,7 @@ void autonomous() {
  */
 void opcontrol() {
     pros::Controller master(pros::E_CONTROLLER_MASTER);
-    std::cout << "opcontrol here" <<std::endl;
+    std::cout << "opcontrol here" << std::endl;
 
     // Track first-time teleop actions if needed
     //bool teleopStarted = false;
