@@ -96,11 +96,19 @@ void opcontrol() {
 		                 (pros::lcd::read_buttons() & LCD_BTN_RIGHT) >> 0);  // Prints status of the emulated screen LCDs
 
 		
-		rob.setConveyorSpeed(master.get_digital(DIGITAL_R1) ? -conveyorSpeedConstant : 0);
-		rob.setConveyorSpeed(master.get_digital(DIGITAL_R2) ? conveyorSpeedConstant: 0);
+		//rob.setConveyorSpeed(master.get_digital(DIGITAL_R1) ? -conveyorSpeedConstant : 0);
+		//rob.setConveyorSpeed(master.get_digital(DIGITAL_R2) ? conveyorSpeedConstant: 0);
 
-		rob.setIntakeSpeed(master.get_digital(DIGITAL_L1) ? intakeSpeedConstant : 0);
-		rob.setIntakeSpeed(master.get_digital(DIGITAL_L2) ? -intakeSpeedConstant : 0);
+		if (master.get_digital(DIGITAL_R1)) 	 {rob.setConveyorSpeed(-conveyorSpeedConstant);}
+		else if (master.get_digital(DIGITAL_R2)) {rob.setConveyorSpeed(conveyorSpeedConstant);}
+		else 									 {rob.setConveyorSpeed(0);}
+
+		//rob.setIntakeSpeed(master.get_digital(DIGITAL_L1) ? intakeSpeedConstant : 0);
+		//rob.setIntakeSpeed(master.get_digital(DIGITAL_L2) ? -intakeSpeedConstant : 0);
+
+		if (master.get_digital(DIGITAL_L1)) 	 {rob.setIntakeSpeed(-intakeSpeedConstant);}
+		else if (master.get_digital(DIGITAL_L2)) {rob.setIntakeSpeed(intakeSpeedConstant);}
+		else 									 {rob.setIntakeSpeed(0);}
 		
 		// Set and hold clamp position
 		if (master.get_digital(DIGITAL_Y)) 		{rob.setClamp(clampedStatePosition);} //clamp
