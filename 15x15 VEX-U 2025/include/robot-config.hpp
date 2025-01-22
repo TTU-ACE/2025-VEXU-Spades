@@ -56,14 +56,14 @@ inline lemlib::ControllerSettings linearController(
 
 // Example angular motion controller gains
 inline lemlib::ControllerSettings angularController(
-    2.0,   // kP
+    0.4,   // kP
     0.0,   // kI
-    10.0,  // kD
-    3.0,   // integral anti-windup
-    1.0,   // small error range (degrees)
-    100,   // small error timeout (ms)
-    3.0,   // large error range (degrees)
-    500,   // large error timeout (ms)
+    100.0,  // kD
+    0.0,   // integral anti-windup
+    0.0,   // small error range (degrees)
+    0,   // small error timeout (ms)
+    0.0,   // large error range (degrees)
+    0,   // large error timeout (ms)
     0.0    // max slew (acceleration)
 );
 
@@ -82,7 +82,7 @@ inline lemlib::ExpoDriveCurve steerCurve(
 );
 
 // Inertial Sensor on port 4
-//inline pros::Imu imu(4);
+inline pros::Imu imu(4);
 
 // 3) Odom sensors
 // If you do not have tracking wheels or IMU for your small bot, set these to nullptr.
@@ -92,8 +92,7 @@ inline lemlib::OdomSensors driveSensors(
     nullptr, // second vertical tracking wheel
     nullptr, // horizontal tracking wheel
     nullptr, // second horizontal tracking wheel
-    nullptr
-    //&imu  // inertial sensor pointer (e.g. new pros::Imu(...))
+    &imu  // inertial sensor pointer (e.g. new pros::Imu(...))
 );
 
 // Drivetrain mechanical parameters
@@ -112,8 +111,9 @@ inline double SM_BOT_EXT_GEAR_RATIO= 1.0;
 // -----------------------------
 
 // Clamp angles
-inline double CLAMP_DOWN_ANGLE = -217.0; 
-inline double CLAMP_UP_ANGLE   = 0.0;   
+// Clamp must start from fully pushed in position, therefore it must positively extend for both angles
+inline double CLAMP_DOWN_ANGLE = 360; 
+inline double CLAMP_UP_ANGLE   = 700;   
 
 // Tilt angles
 inline double TILT_UP_ANGLE    = 180.0;
@@ -132,11 +132,11 @@ inline double LB_RIGHT_ABUTTON_ANGLE = -67.25;
 inline double LB_RIGHT_INIT_ANGLE    = -180.0;
 
 //lift positions
-inline double HANG_LOWERED_POSITION = 0.0;
-inline double HANG_RAISED_POSITION  = 0.0;
+inline double HANG_LOWERED_POSITION = 100;
+inline double HANG_RAISED_POSITION  = 1138.0;
 
 // Hang / Arm speeds
-inline int    HANG_SPEED_PCT = 100;
+inline int    HANG_SPEED_PCT = 50;
 
 // Intake speed
 inline int    INTAKE_SPEED_PCT = 100;

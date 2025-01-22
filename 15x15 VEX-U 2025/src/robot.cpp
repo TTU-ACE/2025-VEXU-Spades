@@ -18,7 +18,7 @@ Robot::Robot()
 
       // Create MotorGroups for the drive base
       leftBase({LEFT_DRIVE_MOTOR_A.port, LEFT_DRIVE_MOTOR_B.port}, LEFT_DRIVE_MOTOR_A.gearset, LEFT_DRIVE_MOTOR_A.units),
-      rightBase({RIGHT_DRIVE_MOTOR_A.port, RIGHT_DRIVE_MOTOR_B.port}, RIGHT_DRIVE_MOTOR_A.gearset, LEFT_DRIVE_MOTOR_A.units),
+      rightBase({RIGHT_DRIVE_MOTOR_A.port, RIGHT_DRIVE_MOTOR_B.port}, RIGHT_DRIVE_MOTOR_A.gearset, RIGHT_DRIVE_MOTOR_A.units),
 
       // Create a Lemlib Drivetrain
       drivetrain(
@@ -137,14 +137,18 @@ void Robot::raiseHang() {
     // Move both hang motors up
     //hangMotorA.move_velocity(HANG_SPEED_PCT * 6.0);
     //hangMotorB.move_velocity(HANG_SPEED_PCT * 6.0);
-    hang.move_absolute(HANG_RAISED_POSITION, HANG_SPEED_PCT);
+    hang.move_velocity(HANG_SPEED_PCT);
+    //hang.move_absolute(HANG_RAISED_POSITION, HANG_SPEED_PCT);
 }
+
 void Robot::lowerHang() {
     // Move both hang motors down
     //hangMotorA.move_velocity(-HANG_SPEED_PCT * 6.0);
     //hangMotorB.move_velocity(-HANG_SPEED_PCT * 6.0);
-    hang.move_absolute(HANG_LOWERED_POSITION, HANG_SPEED_PCT);
+    hang.move_velocity(-HANG_SPEED_PCT);
+    //hang.move_absolute(HANG_LOWERED_POSITION, HANG_SPEED_PCT);
 }
+
 void Robot::stopHang() {
     //hangMotorA.move_velocity(0);
     //hangMotorB.move_velocity(0);
@@ -169,10 +173,6 @@ void Robot::clampIt() {
  */
 void Robot::spinClampToAngle(double angle) {
     clampMotor.move_absolute(angle, 100); 
-    // Wait until near target
-    while (fabs(clampMotor.get_position() - angle) > 5) {
-        pros::delay(20);
-    }
 }
 
 /**
@@ -214,7 +214,12 @@ void Robot::spinLBRightToAngle(double angle, bool wait) {
  */
 void Robot::LBDown() {
     spinLBLeftToAngle(LB_LEFT_DOWN_ANGLE, false);
-    spinLBRightToAngle(LB_RIGHT_DOWN_ANGLE, true);
+    spinLBRightToAngle(LB_RIGHT_DOWN_ANGLE, false);
+}
+
+void Robot::LBUp() {
+    spinLBLeftToAngle(LB_LEFT_UP_ANGLE, false);
+    spinLBRightToAngle(LB_RIGHT_UP_ANGLE, false);
 }
 
 /**
@@ -222,7 +227,7 @@ void Robot::LBDown() {
  */
 void Robot::LBInit() {
     spinLBLeftToAngle(LB_LEFT_INIT_ANGLE, false);
-    spinLBRightToAngle(LB_RIGHT_INIT_ANGLE, true);
+    spinLBRightToAngle(LB_RIGHT_INIT_ANGLE, false);
 }
 
 /**
@@ -230,7 +235,7 @@ void Robot::LBInit() {
  */
 void Robot::LBToAButton() {
     spinLBLeftToAngle(LB_LEFT_ABUTTON_ANGLE, false);
-    spinLBRightToAngle(LB_RIGHT_ABUTTON_ANGLE, true);
+    spinLBRightToAngle(LB_RIGHT_ABUTTON_ANGLE, false);
 }
 
 // For toggling clamp in other places if needed
@@ -254,7 +259,7 @@ void Robot::handleRingDetection() {
         // 3) If ring width > GAME_ELEMENT_THRESHOLD => do something
         // ...
         // If ring found:
-        pros::delay(1500);
+        //pros::delay(1500);
         stopHookIntake();
         LBInit(); // or LBDown / LBUp
         detect_blue_mode = false;

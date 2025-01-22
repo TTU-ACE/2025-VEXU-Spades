@@ -36,6 +36,7 @@ public:
 
     // Moves the Lady Browns down, up, or to “A-button” angle
     void LBDown();
+    void LBUp();
     void LBInit();
     void LBToAButton();
 
@@ -54,9 +55,6 @@ public:
     float getMaxVelocity(pros::Motor motor);
 
     // Public Subsystems
-    lemlib::Chassis chassis;
-
-private:
     // -------------- Motors --------------
     pros::Motor intakeMotor;
     pros::Motor hookIntakeMotor;
@@ -76,6 +74,9 @@ private:
     pros::MotorGroup leftBase;
     pros::MotorGroup rightBase;
     lemlib::Drivetrain drivetrain;
+    lemlib::Chassis chassis;
+
+private:
 
     // -------------- States --------------
     bool isClamped;  // track clamp state
