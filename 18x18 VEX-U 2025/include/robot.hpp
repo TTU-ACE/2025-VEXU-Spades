@@ -29,13 +29,12 @@ class Robot {
         void releaseLift();
         
 
-        void displayClampPosition();
-        void returnPositionLift();
+        float getClampPosition();
+        float getHangPosition();
 
         // Utility functions
         float getMaxVelocity(pros::Motor motor);
 
-    private:
         // drive base and path following
         pros::MotorGroup leftBase;
         pros::MotorGroup rightBase;
@@ -49,6 +48,7 @@ class Robot {
         
         pros::MotorGroup conveyor;
         pros::MotorGroup lift;
+
 };
 
 #endif

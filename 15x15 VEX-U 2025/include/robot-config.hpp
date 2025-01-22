@@ -29,7 +29,7 @@ inline MotorConfig INTAKE_MOTOR       = {17, pros::v5::MotorGears::ratio_18_to_1
 inline MotorConfig HANG_MOTOR_A       = {-15, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 inline MotorConfig HANG_MOTOR_B       = { 5, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 
-inline MotorConfig CLAMP_MOTOR        = { 9, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
+inline MotorConfig CLAMP_MOTOR        = { 9, pros::v5::MotorGears::ratio_36_to_1, pros::v5::MotorUnits::degrees};
 inline MotorConfig TILT_MOTOR         = { 8, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 inline MotorConfig LBROWN_LEFT_MOTOR  = {19, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 inline MotorConfig LBROWN_RIGHT_MOTOR = {16, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
@@ -56,14 +56,14 @@ inline lemlib::ControllerSettings linearController(
 
 // Example angular motion controller gains
 inline lemlib::ControllerSettings angularController(
-    0.4,   // kP
+    0.35,   // kP
     0.0,   // kI
-    100.0,  // kD
-    0.0,   // integral anti-windup
-    0.0,   // small error range (degrees)
-    0,   // small error timeout (ms)
-    0.0,   // large error range (degrees)
-    0,   // large error timeout (ms)
+    30,  // kD
+    3.0,   // integral anti-windup
+    1.0,   // small error range (degrees)
+    100,   // small error timeout (ms)
+    3.0,   // large error range (degrees)
+    500,   // large error timeout (ms)
     0.0    // max slew (acceleration)
 );
 

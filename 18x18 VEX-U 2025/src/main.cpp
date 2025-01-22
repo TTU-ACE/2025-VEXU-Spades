@@ -4,8 +4,12 @@
 
 //#include "robot-config.hpp"
 #include "pros/misc.h"
+#include "utils.hpp"
 #include "robot-config.hpp"
 #include "robot.hpp"
+
+ASSET(example_txt) // From static/ folder
+ASSET(testPath_txt);
 
 
 Robot rob;
@@ -34,8 +38,8 @@ void on_center_button() {
  */
 void initialize() {
 	pros::lcd::initialize();
-	std::cout<<"init_check_here"<<std::endl;
-	pros::lcd::set_text(1, "Hello PROS User!");
+	rob.chassis.calibrate();
+	debugln("Rob-89 Initialized", 1);
 
 	pros::lcd::register_btn1_cb(on_center_button);
 }
@@ -58,6 +62,23 @@ void disabled() {}
  */
 void competition_initialize() {}
 
+
+void tune_angular() {
+	// Tune the angular controller for the chassis
+	// set position to x:0, y:0, heading:0
+	rob.chassis.setPose(0, 0, 0);
+	// turn to face heading 90 with a very long timeout
+	rob.chassis.turnToHeading(90, 100000);
+	rob.chassis.waitUntilDone();
+}
+
+void tune_lateral() {
+	// set position to x:0, y:0, heading:0
+    rob.chassis.setPose(0, 0, 0);
+    // move 48" forwards
+    rob.chassis.moveToPoint(0, 48, 10000);
+}
+
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -70,7 +91,19 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	rob.chassis.follow("example_txt", 15, 4000, false); // Replace with path generated from https://path.jerryio.com/
+	debugln("Autonomous", 1);
+
+	rob.chassis.follow(example_txt, 15, 2000, true); // Replace with path generated from https://path.jerryio.com/
+	//rob.chassis.follow(testPath_txt, 15, 20000, true); // Replace with path generated from https://path.jerryio.com/
+    }
+    // rob.chassis.moveToPoint(20, 20, 5000);
+
+    while(rob.chassis.isInMotion()) {
+        debugln("Moving chassis to position...");
+        pros::delay(500);
+    }
+	
+	debugln("Autonomous Finished.");
 }
 
 /**
@@ -88,7 +121,8 @@ void autonomous() {
  */
 void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	std::cout <<"opcontrol_init_check_here"<< std::endl;
+	char msg[100];
+	debugln("Opcontrol", 1);
 
 	while (true) {
 		pros::lcd::print(0, "%d %d %d", (pros::lcd::read_buttons() & LCD_BTN_LEFT) >> 2,
@@ -119,10 +153,21 @@ void opcontrol() {
 		else if (master.get_digital(DIGITAL_DOWN))  {rob.setLift(loweredStatePosition);} //lowered
 
 		//check position
-		if(master.get_digital(DIGITAL_A)) {rob.displayClampPosition();}
-		if(master.get_digital(DIGITAL_B)) {rob.returnPositionLift();}
+		// if(master.get_digital(DIGITAL_A)) {rob.displayClampPosition();}
+		// if(master.get_digital(DIGITAL_B)) {rob.returnPositionLift();}
 		
-		rob.arcadeDrive(master.get_analog(ANALOG_LEFT_Y), master.get_analog(ANALOG_RIGHT_X));
+		// arcade drive from sticks
+        double fwd = master.get_analog(ANALOG_LEFT_Y); 
+        double turn = master.get_analog(ANALOG_RIGHT_X);
+        rob.arcadeDrive(fwd, turn);
+
+		sprintf(msg, "Fwd (raw): %0.1f, Turn (raw): %0.1f", fwd, turn);
+        debugln(msg, 2);  // On line 2
+
+		float hangPos = rob.getHangPosition();
+        float clampPos = rob.getClampPosition();
+        sprintf(msg, "Clamp (deg): %0.2f, Hang (deg): %0.2f", clampPos, hangPos);
+        debugln(msg, 3);  // On line 3
 
 		pros::delay(20); //revert to 20                              
 	}

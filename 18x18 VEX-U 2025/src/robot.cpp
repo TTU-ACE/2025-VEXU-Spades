@@ -90,14 +90,15 @@ void Robot::releaseLift() {
     lift.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 }
 
-void Robot::displayClampPosition() {
-    std::cout << "Clamp Position: " << clampMotor.get_position() << std::endl;
-    //clampMotor.get_position();
+// Returns position of clamp in degrees
+float Robot::getClampPosition()
+{
+    return clampMotor.get_position(0);
 }
 
-void Robot::returnPositionLift() {
-    std::cout << "Lift Position: " << lift.get_position(1) << std::endl;
-    //lift.get_position();
+float Robot::getHangPosition()
+{
+    return lift.get_position(0);
 }
 
 /**

@@ -21,7 +21,7 @@ void initialize() {
     rob.chassis.calibrate();
     // pros::lcd::set_text(1, "Small Bot: Hello from PROS!");
     // std::cout << "initialize here" << std::endl;
-    debugln("Small Bot Initialized", 1);
+    debugln("15-Cubed Initialized", 1);
 
     // The Robot constructor automatically sets up motors and starting positions
     // Additional custom init can be done here if needed
@@ -50,7 +50,7 @@ void autonomous() {
     // pros::delay(1000);
     // rob.arcadeDrive(0, 0);   // stop
     // pros::delay(500);
-    //rob.chassis.follow(example_txt, 15, 10000, false); // Replace with path generated from https://path.jerryio.com/
+    //rob.chassis.follow(example_txt, 15, 10000, true); // Replace with path generated from https://path.jerryio.com/
 
     // rob.chassis.moveToPoint(0, 20, 5000);
 
