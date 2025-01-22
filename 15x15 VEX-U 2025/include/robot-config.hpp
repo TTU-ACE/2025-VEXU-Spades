@@ -102,7 +102,7 @@ inline lemlib::OdomSensors driveSensors(
 //   - externalGearRatio is 1.0 if there's no external chaining/belting that changes ratio.
 inline double SM_BOT_TRACK_WIDTH   = 12.5;                      // measure in inches 
 inline double SM_BOT_WHEEL_DIAM    = lemlib::Omniwheel::NEW_4;  // e.g., 4" wheels
-inline double SM_BOT_WHEEL_RPM     = 200.0;                     // for 18:1 gearset
+inline double SM_BOT_WHEEL_RPM     = 200.0;                     // TODO determine based on gearbox and drivetrain gearset
 inline double SM_BOT_EXT_GEAR_RATIO= 1.0;
 // TODO - set these to small bot's values
 

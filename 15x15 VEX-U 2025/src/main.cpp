@@ -50,7 +50,7 @@ void autonomous() {
     // pros::delay(1000);
     // rob.arcadeDrive(0, 0);   // stop
     // pros::delay(500);
-    //rob.chassis.follow(example_txt, 15, 10000, true); // Replace with path generated from https://path.jerryio.com/
+    //rob.chassis.follow(example_txt, 15, 10000, false); // Replace with path generated from https://path.jerryio.com/
 
     // rob.chassis.moveToPoint(0, 20, 5000);
 

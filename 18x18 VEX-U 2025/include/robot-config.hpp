@@ -121,7 +121,7 @@ inline lemlib::ExpoDriveCurve steerCurve(   3, // joystick deadband out of 127
 //   - externalGearRatio is 1.0 if there's no external chaining/belting that changes ratio.
 inline double LG_BOT_TRACK_WIDTH   =   15.5;    // measure in inches 
 inline double LG_BOT_WHEEL_DIAM    =   lemlib::Omniwheel::NEW_4;
-inline double LG_BOT_WHEEL_RPM     =   360;    // for 18:1 gearset
+inline double LG_BOT_WHEEL_RPM     =   360;    // TODO fix for 5:3 drivetrain and correct gearset
 inline double LG_BOT_EXT_GEAR_RATIO=   2;
 
 
