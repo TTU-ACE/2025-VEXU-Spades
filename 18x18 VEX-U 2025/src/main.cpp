@@ -70,7 +70,7 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-	//rob.chassis.follow("example_txt", 15, 4000, false); // Replace with path generated from https://path.jerryio.com/
+	rob.chassis.follow("example_txt", 15, 4000, false); // Replace with path generated from https://path.jerryio.com/
 }
 
 /**
