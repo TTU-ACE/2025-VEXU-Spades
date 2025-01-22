@@ -28,8 +28,8 @@ inline MotorConfig BACK_RIGHT_MOTOR =   {4, pros::v5::MotorGears::ratio_18_to_1,
 inline MotorConfig CONVEYOR_LEFT_MOTOR = {-8, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
 inline MotorConfig CONVEYOR_RIGHT_MOTOR = {3, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
 
-inline MotorConfig LIFT_LEFT_MOTOR = {6, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
-inline MotorConfig LIFT_RIGHT_MOTOR = {-5, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+inline MotorConfig LIFT_LEFT_MOTOR = {6, pros::v5::MotorGears::ratio_36_to_1, pros::v5::MotorUnits::rotations};
+inline MotorConfig LIFT_RIGHT_MOTOR = {-5, pros::v5::MotorGears::ratio_36_to_1, pros::v5::MotorUnits::rotations};
 
 inline MotorConfig INTAKE_MOTOR = {2, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
 inline MotorConfig CLAMP_MOTOR = {9, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
@@ -124,17 +124,17 @@ inline double LG_BOT_EXT_GEAR_RATIO=   2;
 
 //control constants
 inline float clampedStatePosition = 0;
-inline float unclampedStatePosition = 240;
+inline float unclampedStatePosition = 200;
 inline float clampDesiredState;
 
-inline double liftedStatePosition = 1121;
+inline double liftedStatePosition = 2242;
 inline double loweredStatePosition = 50;
 inline double liftDesiredState;
 
 //inline double clampSpeedConstant = 50;
 //inline double liftSpeedConstant = 50;
-inline double conveyorSpeedConstant = 50;
-inline double intakeSpeedConstant = 50;
+inline double conveyorSpeedConstant = 130;
+inline double intakeSpeedConstant = 150;
 
 //inline double deadband = 0;
 
