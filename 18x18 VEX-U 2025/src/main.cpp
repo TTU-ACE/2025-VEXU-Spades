@@ -93,10 +93,16 @@ void tune_lateral() {
 void autonomous() {
 	debugln("Autonomous", 1);
 
-	rob.chassis.follow(example_txt, 15, 2000, true); // Replace with path generated from https://path.jerryio.com/
+	rob.chassis.setPose(0, 0, 0);
+	//rob.chassis.follow(example_txt, 15, 2000, true); // Replace with path generated from https://path.jerryio.com/
 	//rob.chassis.follow(testPath_txt, 15, 20000, true); // Replace with path generated from https://path.jerryio.com/
-    }
     // rob.chassis.moveToPoint(20, 20, 5000);
+
+	rob.chassis.moveToPoint(0, 48, 5000);
+	rob.chassis.turnToHeading(90, 5000);
+	rob.chassis.moveToPoint(30, 48, 5000);
+	rob.chassis.turnToHeading(0, 5000);
+	rob.chassis.moveToPoint(30, 0, 5000);
 
     while(rob.chassis.isInMotion()) {
         debugln("Moving chassis to position...");

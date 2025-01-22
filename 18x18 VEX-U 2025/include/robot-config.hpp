@@ -56,7 +56,7 @@ inline lemlib::ControllerSettings linearController(     100,     // proportional
 // P and D are tuned
 inline lemlib::ControllerSettings angularController(    13,     // proportional gain (kP)
                                                         0,      // integral gain (kI)
-                                                        115,    // derivative gain (kD)
+                                                        120,    // derivative gain (kD)
                                                         3,      // anti windup
                                                         0.5,    // small error range, in degrees
                                                         100,    // small error range timeout, in milliseconds
