@@ -17,8 +17,8 @@ Robot::Robot()
       lbRightMotor(LBROWN_RIGHT_MOTOR.port, LBROWN_RIGHT_MOTOR.gearset, LBROWN_RIGHT_MOTOR.units),
 
       // Create MotorGroups for the drive base
-      leftBase({LEFT_DRIVE_MOTOR_A.port, LEFT_DRIVE_MOTOR_B.port}, LEFT_DRIVE_MOTOR_A.gearset, LEFT_DRIVE_MOTOR_A.units),
-      rightBase({RIGHT_DRIVE_MOTOR_A.port, RIGHT_DRIVE_MOTOR_B.port}, RIGHT_DRIVE_MOTOR_A.gearset, RIGHT_DRIVE_MOTOR_A.units),
+      leftBase({LEFT_DRIVE_MOTOR_A.port, LEFT_DRIVE_MOTOR_B.port, LEFT_DRIVE_MOTOR_C.port}, LEFT_DRIVE_MOTOR_A.gearset, LEFT_DRIVE_MOTOR_A.units),
+      rightBase({RIGHT_DRIVE_MOTOR_A.port, RIGHT_DRIVE_MOTOR_B.port, RIGHT_DRIVE_MOTOR_C.port}, RIGHT_DRIVE_MOTOR_A.gearset, RIGHT_DRIVE_MOTOR_A.units),
 
       // Create a Lemlib Drivetrain
       drivetrain(
@@ -160,12 +160,20 @@ void Robot::stopHang() {
  */
 void Robot::clampIt() {
     if (!isClamped) {
-        spinClampToAngle(CLAMP_DOWN_ANGLE);
-        isClamped = true;
+        lowerClamp();
     } else {
-        spinClampToAngle(CLAMP_UP_ANGLE);
-        isClamped = false;
+        raiseClamp();
     }
+}
+
+void Robot::raiseClamp() {
+    spinClampToAngle(CLAMP_UP_ANGLE);
+    isClamped = false;
+}
+
+void Robot::lowerClamp() {
+    spinClampToAngle(CLAMP_DOWN_ANGLE);
+    isClamped = true;
 }
 
 /**
@@ -276,6 +284,11 @@ float Robot::getHangPosition()
 float Robot::getClampPosition()
 {
     return clampMotor.get_position(0);
+}
+
+float Robot::getTiltPosition()
+{
+    return tiltMotor.get_position();
 }
 
 /**

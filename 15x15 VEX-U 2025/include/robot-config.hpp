@@ -19,17 +19,20 @@ struct MotorConfig {
 // -----------------------------
 
 // Example: Motor(portNumber, gearset, motorUnits)
-inline MotorConfig LEFT_DRIVE_MOTOR_A  = {10, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
-inline MotorConfig LEFT_DRIVE_MOTOR_B  = { 7, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
-inline MotorConfig RIGHT_DRIVE_MOTOR_A = {-20, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
-inline MotorConfig RIGHT_DRIVE_MOTOR_B = {-18, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+inline MotorConfig LEFT_DRIVE_MOTOR_A  = {-20, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+inline MotorConfig LEFT_DRIVE_MOTOR_B  = {-18, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+inline MotorConfig LEFT_DRIVE_MOTOR_C  = { 14, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+
+inline MotorConfig RIGHT_DRIVE_MOTOR_A = { 10, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+inline MotorConfig RIGHT_DRIVE_MOTOR_B = {  7, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
+inline MotorConfig RIGHT_DRIVE_MOTOR_C = { -3, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::rotations};
 
 inline MotorConfig HOOK_INTAKE_MOTOR  = { 6, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 inline MotorConfig INTAKE_MOTOR       = {17, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 inline MotorConfig HANG_MOTOR_A       = {-15, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 inline MotorConfig HANG_MOTOR_B       = { 5, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 
-inline MotorConfig CLAMP_MOTOR        = { 9, pros::v5::MotorGears::ratio_36_to_1, pros::v5::MotorUnits::degrees};
+inline MotorConfig CLAMP_MOTOR        = { 9, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 inline MotorConfig TILT_MOTOR         = { 8, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 inline MotorConfig LBROWN_LEFT_MOTOR  = {19, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 inline MotorConfig LBROWN_RIGHT_MOTOR = {16, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
@@ -43,22 +46,23 @@ inline signed char imu_port = 4;
 
 // 1) Example linear motion controller gains
 inline lemlib::ControllerSettings linearController(
-    10.0,  // kP
+    20.0,  // kP
     0.0,   // kI
-    3.0,   // kD
-    3.0,   // integral anti-windup
-    1.0,   // small error range (inches)
+    5,   // kD
+    3,   // integral anti-windup
+    1,   // small error range (inches)
     100,   // small error timeout (ms)
-    3.0,   // large error range (inches)
+    3,   // large error range (inches)
     500,   // large error timeout (ms)
-    20.0   // max slew (acceleration)
+    10   // max slew (acceleration)
 );
 
 // Example angular motion controller gains
+// P and D are tuned
 inline lemlib::ControllerSettings angularController(
-    0.35,   // kP
+    8.0,   // kP
     0.0,   // kI
-    30,  // kD
+    50,  // kD
     3.0,   // integral anti-windup
     1.0,   // small error range (degrees)
     100,   // small error timeout (ms)
@@ -103,7 +107,6 @@ inline lemlib::OdomSensors driveSensors(
 inline double SM_BOT_TRACK_WIDTH   = 12.5;                      // measure in inches 
 inline double SM_BOT_WHEEL_DIAM    = lemlib::Omniwheel::NEW_4;  // e.g., 4" wheels
 inline double SM_BOT_WHEEL_RPM     = 200.0;                     // TODO determine based on gearbox and drivetrain gearset
-inline double SM_BOT_EXT_GEAR_RATIO= 1.0;
 // TODO - set these to small bot's values
 
 // -----------------------------
@@ -136,8 +139,8 @@ inline double HANG_LOWERED_POSITION = 100;
 inline double HANG_RAISED_POSITION  = 1138.0;
 
 // Hang / Arm speeds
-inline int    HANG_SPEED_PCT = 50;
-
+inline int    HANG_SPEED_PCT = 200;
+ 
 // Intake speed
 inline int    INTAKE_SPEED_PCT = 100;
 

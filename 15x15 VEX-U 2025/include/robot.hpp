@@ -27,7 +27,10 @@ public:
     void lowerHang();
     void stopHang();
 
-    void clampIt();   // toggles clamp up/down
+    void clampIt();
+    void raiseClamp();
+    void lowerClamp();
+    // toggles clamp up/down
     void spinClampToAngle(double angle);
 
     void spinTiltToAngle(double angle);
@@ -50,6 +53,7 @@ public:
     // Subsystem info
     float getHangPosition();
     float getClampPosition();
+    float getTiltPosition();
 
     // Utility
     float getMaxVelocity(pros::Motor motor);
