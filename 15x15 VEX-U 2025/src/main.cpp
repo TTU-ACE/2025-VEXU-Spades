@@ -39,6 +39,24 @@ void competition_initialize() {
     // If you have a pre-auton routine, calibrations, etc.
 }
 
+void tune_angular() {
+    // Tune the angular controller for the chassis
+    // set position to x:0, y:0, heading:0
+    rob.chassis.setPose(0, 0, 0);
+    // turn to face heading 90 with a very long timeout
+    rob.chassis.turnToHeading(-90, 100000);
+    rob.chassis.waitUntilDone();
+}
+
+void tune_lateral() {
+    // Tune the lateral controller for the chassis
+    // set position to x:0, y:0, heading:0
+    rob.chassis.setPose(0, 0, 0);
+    // move to x:0, y:20 with a very long timeout
+    rob.chassis.moveToPoint(0, 48, 100000);
+    rob.chassis.waitUntilDone();
+}
+
 /**
  * Autonomous code
  */
@@ -59,13 +77,8 @@ void autonomous() {
     //     pros::delay(500);
     // }
 
-
-    // Tune the angular controller for the chassis
-    // set position to x:0, y:0, heading:0
-    rob.chassis.setPose(0, 0, 0);
-    // turn to face heading 90 with a very long timeout
-    rob.chassis.turnToHeading(90, 100000);
-    rob.chassis.waitUntilDone();
+    //tune_angular();
+    tune_lateral();
 
 
     debugln("Autonomous Finished.");
@@ -94,7 +107,7 @@ void opcontrol() {
 
         // arcade drive from sticks
         double fwd = master.get_analog(ANALOG_LEFT_Y); 
-        double turn = -master.get_analog(ANALOG_RIGHT_X);
+        double turn = master.get_analog(ANALOG_RIGHT_X);
         rob.arcadeDrive(fwd, turn);
         // std::cout << "Fwd: " << fwd << ", Turn: " << turn << std::endl;
 
@@ -107,8 +120,8 @@ void opcontrol() {
         debugln(msg, 3);  // On line 3
 
         // L1 => intake forward, L2 => intake reverse
-        if(master.get_digital(DIGITAL_L1))      {rob.setIntakeSpeed(INTAKE_SPEED_PCT);} 
-        else if(master.get_digital(DIGITAL_L2)) {rob.setIntakeSpeed(-INTAKE_SPEED_PCT);} 
+        if(master.get_digital(DIGITAL_L1))      {rob.setIntakeSpeed(-INTAKE_SPEED_PCT);} 
+        else if(master.get_digital(DIGITAL_L2)) {rob.setIntakeSpeed(INTAKE_SPEED_PCT);} 
         else                                    {rob.stopIntake();}
 
         // R1 => hook intake forward, R2 => hook intake reverse
