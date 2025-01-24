@@ -29,6 +29,7 @@ public:
 
     void clampIt();
     void raiseClamp();
+    void lowerClamp(bool async, int timeout_ms);
     void lowerClamp();
     // toggles clamp up/down
     void spinClampToAngle(double angle);
@@ -41,7 +42,7 @@ public:
     void LBDown();
     void LBUp();
     void LBInit();
-    void LBToAButton();
+    void LBToLoadPos();
 
     // Resets or toggles the clamp
     void setIsClamped(bool val);

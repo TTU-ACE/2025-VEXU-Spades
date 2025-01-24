@@ -1,11 +1,9 @@
 #include "main.h"
 #include "utils.hpp"
+#include "playbook.h"
 #include "robot.hpp"
 #include "robot-config.hpp"
 #include <cmath>
-
-ASSET(example_txt) // From static/ folder
-ASSET(cubedGrabStake_txt)
 
 // Create a global Robot instance
 Robot rob;
@@ -67,17 +65,9 @@ void autonomous() {
     // Turn off tilt motor
     rob.tiltMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     rob.tiltMotor.move_voltage(0);
+    rob.LBInit();
 
-    rob.chassis.setPose(62, 39, 89.989); // First point in file
-    rob.raiseClamp();
-    rob.chassis.follow(cubedGrabStake_txt, 15, 10000, false); // Replace with path generated from https://path.jerryio.com/
-    rob.chassis.waitUntilDone();
-    rob.lowerClamp();
-
-    // while(rob.chassis.isInMotion()) {
-    //     debugln("Moving chassis to position...");
-    //     pros::delay(500);
-    // }
+    redAuto1();
 
     //=========================================================================
     // Tuning
@@ -97,6 +87,11 @@ void autonomous() {
     // rob.chassis.waitUntilDone();
     // rob.chassis.turnToHeading(0, 4000);
 
+    // TEST RELEASE SUBSYSTEMS REMOVE FOR COMP
+    rob.clampMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    rob.tiltMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    rob.lbLeftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    rob.lbRightMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 
     debugln("Autonomous Finished.");
 
@@ -114,6 +109,7 @@ void opcontrol() {
     // Turn off tilt motor
     rob.tiltMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     rob.tiltMotor.move_voltage(0);
+    rob.LBInit();
 
     // Track first-time teleop actions if needed
     // bool teleopStarted = false;
@@ -190,7 +186,7 @@ void opcontrol() {
         if(master.get_digital(DIGITAL_RIGHT)) {rob.LBUp();};
 
         // A => move Lady Browns to A-button angle
-        if(master.get_digital(DIGITAL_A)) {rob.LBToAButton();}
+        if(master.get_digital(DIGITAL_A)) {rob.LBToLoadPos();}
 
         // B => move Lady Browns to init angle
         if(master.get_digital(DIGITAL_B)) {rob.LBInit();}

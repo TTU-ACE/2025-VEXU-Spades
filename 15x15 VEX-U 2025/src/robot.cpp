@@ -176,6 +176,19 @@ void Robot::lowerClamp() {
     isClamped = true;
 }
 
+// Overloaded method to lower clamp with timeout
+void Robot::lowerClamp(bool async, int timeout_ms = 5000) {
+    spinClampToAngle(CLAMP_DOWN_ANGLE);
+    isClamped = true;
+    if (!async) {
+        int elapsed = 0;
+        while (fabs(clampMotor.get_position() - CLAMP_DOWN_ANGLE) > 5 && elapsed < timeout_ms) {
+            pros::delay(20);
+            elapsed += 20;
+        }
+    }
+}
+
 /**
  * Move clamp to specific angle
  */
@@ -241,7 +254,7 @@ void Robot::LBInit() {
 /**
  * Lady Brown arms to "A button" angle
  */
-void Robot::LBToAButton() {
+void Robot::LBToLoadPos() {
     spinLBLeftToAngle(LB_LEFT_ABUTTON_ANGLE, false);
     spinLBRightToAngle(LB_RIGHT_ABUTTON_ANGLE, false);
 }
