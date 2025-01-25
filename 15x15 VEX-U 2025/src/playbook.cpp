@@ -6,36 +6,53 @@
 
 // Make sure to call the macro below for all path files
 ASSET(example_txt) // From static/ folder
+// Blue Auto 1
+ASSET(blueGrabStake_txt)
+ASSET(blueBackUp_txt)
+// Red Auto 1
 ASSET(redGrabStake_txt)
-ASSET(redDriveToRingFromStake_txt)
+ASSET(redBackUp_txt)
 
 extern Robot rob;
+
+void blueAuto1() {
+    // Grab stake, intake red ring, and place on stake
+    // 1) Drive forward to stake
+    rob.chassis.setPose(51.465, 31.203, 90); // First point in file
+    rob.raiseClamp();
+    rob.chassis.follow(blueGrabStake_txt, 15, 2500, false);
+    
+    // 2) Grab stake and place preloaded blue stake
+    rob.chassis.waitUntilDone();
+    rob.lowerClamp(false, 1000);
+    pros::delay(250);
+    rob.chassis.follow(blueBackUp_txt, 15, 2000, true);
+    rob.setHookIntakeSpeed(-HOOK_INTAKE_SPEED_PCT); // Hit the stake with backward motion in case it is in the way to prevent jamming
+    rob.setIntakeSpeed(INTAKE_SPEED_PCT); // Start intake
+    
+    // 3) Reset
+    pros::delay(3000);
+    rob.stopHookIntake();
+    rob.stopIntake();
+}
 
 void redAuto1() {
     // Grab stake, intake red ring, and place on stake
     // 1) Drive forward to stake
-    rob.chassis.setPose(62, 39, 89.989); // First point in file
+    rob.chassis.setPose(51.465, 31.203, 270); // First point in file
     rob.raiseClamp();
-    rob.chassis.follow(redGrabStake_txt, 15, 5000, false); // Replace with path generated from https://path.jerryio.com/
+    rob.chassis.follow(redGrabStake_txt, 15, 3000, false);
+    
     // 2) Grab stake
     rob.chassis.waitUntilDone();
-    rob.chassis.tank(50, 50);
+    rob.lowerClamp(false, 1000);
     pros::delay(250);
-    rob.lowerClamp(false, 2000);
+    rob.chassis.follow(redBackUp_txt, 15, 2000, true);
+    rob.setHookIntakeSpeed(-HOOK_INTAKE_SPEED_PCT); // Hit the stake with backward motion in case it is in the way to prevent jamming
+    rob.setIntakeSpeed(INTAKE_SPEED_PCT); // Start intake
+
+    // 3) Reset
     pros::delay(3000);
-    //rob.chassis.moveToPose(24, 25, 120, 4000); // Move forward while clamping
-    // 3) Drive to red ring
-    rob.chassis.turnToHeading(345, 4000, {.maxSpeed = 50});
-    rob.chassis.waitUntilDone();
-    rob.chassis.follow(redDriveToRingFromStake_txt, 15, 5000, true); // Replace with path generated from https://path.jerryio.com/
-    // 4) Intake red ring
-    pros::delay(250);
-    rob.setIntakeSpeed(INTAKE_SPEED_PCT);
-    // 5) Place on stake
-    pros::delay(250);
-    rob.setHookIntakeSpeed(-HOOK_INTAKE_SPEED_PCT);
-    // 6) Reset
-    pros::delay(5000);
     rob.stopHookIntake();
     rob.stopIntake();
 }

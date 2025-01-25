@@ -46,29 +46,29 @@ inline signed char imu_port = 4;
 
 // 1) Example linear motion controller gains
 inline lemlib::ControllerSettings linearController(
-    20.0,  // kP
-    0.0,   // kI
-    5,   // kD
-    3,   // integral anti-windup
-    1,   // small error range (inches)
-    100,   // small error timeout (ms)
-    3,   // large error range (inches)
-    500,   // large error timeout (ms)
-    10   // max slew (acceleration)
+    20.0,   // kP
+    0.0,    // kI
+    5,      // kD
+    3,      // integral anti-windup
+    1,      // small error range (inches)
+    100,    // small error timeout (ms)
+    3,      // large error range (inches)
+    500,    // large error timeout (ms)
+    10      // max slew (acceleration)
 );
 
 // Example angular motion controller gains
 // P and D are tuned
 inline lemlib::ControllerSettings angularController(
-    8.0,   // kP
-    0.0,   // kI
-    50,  // kD
-    3.0,   // integral anti-windup
-    1.0,   // small error range (degrees)
-    100,   // small error timeout (ms)
-    3.0,   // large error range (degrees)
-    500,   // large error timeout (ms)
-    0.0    // max slew (acceleration)
+    8.0,    // kP
+    0.0,    // kI
+    50,     // kD
+    3.0,    // integral anti-windup
+    1.0,    // small error range (degrees)
+    100,    // small error timeout (ms)
+    3.0,    // large error range (degrees)
+    500,    // large error timeout (ms)
+    0.0     // max slew (acceleration)
 );
 
 

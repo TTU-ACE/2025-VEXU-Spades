@@ -67,25 +67,13 @@ void autonomous() {
     rob.tiltMotor.move_voltage(0);
     rob.LBInit();
 
-    redAuto1();
+    // Red Auto 1 =============================================================
+    //redAuto1();
+    //==========================================================================
 
-    //=========================================================================
-    // Tuning
-    //=========================================================================
-    //tune_angular();
-    //tune_lateral();
-
-    //=========================================================================
-    // Test Drive in Line and Return
-    //=========================================================================
-    // rob.chassis.setPose(0, 0, 0);
-    // rob.chassis.moveToPoint(0, 48, 4000);
-    // rob.chassis.waitUntilDone();
-    // rob.chassis.turnToHeading(180, 4000);
-    // rob.chassis.waitUntilDone();
-    // rob.chassis.moveToPoint(0, 0, 4000);
-    // rob.chassis.waitUntilDone();
-    // rob.chassis.turnToHeading(0, 4000);
+    // Blue Auto 1 ============================================================
+    blueAuto1();
+    //==========================================================================
 
     // TEST RELEASE SUBSYSTEMS REMOVE FOR COMP
     rob.clampMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
