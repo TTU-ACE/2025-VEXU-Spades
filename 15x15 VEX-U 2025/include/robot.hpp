@@ -70,7 +70,8 @@ public:
     pros::MotorGroup hang;
 
     // Single clamp, tilt, lady brown motors
-    pros::Motor clampMotor;
+    // pros::Motor clampMotor;
+    pros::adi::Pneumatics clampPiston;
     pros::Motor tiltMotor;
     pros::Motor lbLeftMotor;
     pros::Motor lbRightMotor;
