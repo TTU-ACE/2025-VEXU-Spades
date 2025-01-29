@@ -119,9 +119,9 @@ inline double CLAMP_DOWN_ANGLE = 360;
 inline double CLAMP_UP_ANGLE   = 700;   
 
 // Tilt angles
-inline double TILT_UP_ANGLE    = 180.0;
-inline double TILT_DOWN_ANGLE  = 0.0;
-inline double TILT_INIT_ANGLE  = 180.0;
+inline double TILT_UP_ANGLE    = 0.0;
+inline double TILT_DOWN_ANGLE  = -180.0;
+inline double TILT_INIT_ANGLE  = 0.0;
 
 // Lady Brown (LB) servo angles
 inline double LB_LEFT_UP_ANGLE       = 300.0;

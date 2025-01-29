@@ -124,7 +124,7 @@ void Robot::stopIntake() {
  * Sets the hook intake motor velocity
  */
 void Robot::setHookIntakeSpeed(double pct) {
-    hookIntakeMotor.move_velocity(pct * 6.0);
+    hookIntakeMotor.move_velocity(pct * 6.0); // TODO: why * 6.0?
 }
 void Robot::stopHookIntake() {
     hookIntakeMotor.move_velocity(0);
@@ -324,11 +324,6 @@ float Robot::getMaxVelocity(pros::Motor motor) {
         default:
             maxVelocity = 200; // Default to a common gearset if unknown
             break;
-    }
-
-    // Adjust maxVelocity based on the motor units
-    if (motor.get_encoder_units() == pros::v5::MotorUnits::degrees) {
-        maxVelocity *= 360.0 / 60.0; // Convert RPM to degrees per second
     }
 
     return maxVelocity;
