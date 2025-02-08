@@ -29,10 +29,10 @@ public:
 
     void clampIt();
     void raiseClamp();
-    void lowerClamp(bool async, int timeout_ms);
+    //void lowerClamp(bool async, int timeout_ms);
     void lowerClamp();
     // toggles clamp up/down
-    void spinClampToAngle(double angle);
+    //void spinClampToAngle(double angle);
 
     void spinTiltToAngle(double angle);
     void spinLBLeftToAngle(double angle, bool wait = true);

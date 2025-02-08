@@ -37,9 +37,9 @@ inline MotorConfig TILT_MOTOR         = { 8, pros::v5::MotorGears::ratio_18_to_1
 inline MotorConfig LBROWN_LEFT_MOTOR  = {19, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 inline MotorConfig LBROWN_RIGHT_MOTOR = {16, pros::v5::MotorGears::ratio_18_to_1, pros::v5::MotorUnits::degrees};
 
-inline char CLAMP_PNEUMATIC_PORT = 'b';     // Pneumatic solenoid port from A-H
-inline bool CLAMP_START_EXTENDED = false;   // Set to true if clamp starts extended
-inline bool CLAMP_EXTENDED_IS_LOW = false;  // Set to true if extended is low signal
+inline std::uint8_t CLAMP_PNEUMATIC_PORT = 8;   // Pneumatic solenoid port from A-H (1-8)
+inline bool CLAMP_START_EXTENDED = false;       // Set to true if clamp starts extended
+inline bool CLAMP_EXTENDED_IS_LOW = false;      // Set to true if extended is low signal
 
 // Sensors
 inline signed char imu_port = 4;

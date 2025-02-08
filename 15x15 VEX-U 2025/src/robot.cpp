@@ -11,7 +11,8 @@ Robot::Robot()
       //hangMotorB(HANG_MOTOR_B.port, HANG_MOTOR_B.gearset, HANG_MOTOR_B.units),
       hang({HANG_MOTOR_A.port, HANG_MOTOR_B.port}, HANG_MOTOR_A.gearset, HANG_MOTOR_A.units),
 
-      clampMotor(CLAMP_MOTOR.port, CLAMP_MOTOR.gearset, CLAMP_MOTOR.units),
+      //clampMotor(CLAMP_MOTOR.port, CLAMP_MOTOR.gearset, CLAMP_MOTOR.units),
+      clampPiston(CLAMP_PNEUMATIC_PORT, CLAMP_START_EXTENDED, CLAMP_EXTENDED_IS_LOW),
       tiltMotor(TILT_MOTOR.port, TILT_MOTOR.gearset, TILT_MOTOR.units),
       lbLeftMotor(LBROWN_LEFT_MOTOR.port, LBROWN_LEFT_MOTOR.gearset, LBROWN_LEFT_MOTOR.units),
       lbRightMotor(LBROWN_RIGHT_MOTOR.port, LBROWN_RIGHT_MOTOR.gearset, LBROWN_RIGHT_MOTOR.units),
@@ -58,7 +59,7 @@ Robot::Robot()
 
 
     // Configure motors that need special brake modes or torque
-    clampMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    //clampMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     tiltMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     lbLeftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
     lbRightMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
@@ -68,7 +69,7 @@ Robot::Robot()
 
 
     // If your small bot initialization includes setting initial angles:
-    clampMotor.tare_position();
+    //clampMotor.tare_position();
     tiltMotor.tare_position();
     lbLeftMotor.tare_position();
     lbRightMotor.tare_position();
@@ -167,34 +168,36 @@ void Robot::clampIt() {
 }
 
 void Robot::raiseClamp() {
-    spinClampToAngle(CLAMP_UP_ANGLE);
+    // spinClampToAngle(CLAMP_UP_ANGLE);
+    clampPiston.retract();
     isClamped = false;
 }
 
 void Robot::lowerClamp() {
-    spinClampToAngle(CLAMP_DOWN_ANGLE);
+    // spinClampToAngle(CLAMP_DOWN_ANGLE);
+    clampPiston.extend();
     isClamped = true;
 }
 
 // Overloaded method to lower clamp with timeout
-void Robot::lowerClamp(bool async, int timeout_ms = 5000) {
-    spinClampToAngle(CLAMP_DOWN_ANGLE);
-    isClamped = true;
-    if (!async) {
-        int elapsed = 0;
-        while (fabs(clampMotor.get_position() - CLAMP_DOWN_ANGLE) > 5 && elapsed < timeout_ms) {
-            pros::delay(20);
-            elapsed += 20;
-        }
-    }
-}
+// void Robot::lowerClamp(bool async, int timeout_ms = 5000) {
+//     spinClampToAngle(CLAMP_DOWN_ANGLE);
+//     isClamped = true;
+//     if (!async) {
+//         int elapsed = 0;
+//         while (fabs(clampMotor.get_position() - CLAMP_DOWN_ANGLE) > 5 && elapsed < timeout_ms) {
+//             pros::delay(20);
+//             elapsed += 20;
+//         }
+//     }
+// }
 
 /**
  * Move clamp to specific angle
  */
-void Robot::spinClampToAngle(double angle) {
-    clampMotor.move_absolute(angle, 100); 
-}
+// void Robot::spinClampToAngle(double angle) {
+//     clampMotor.move_absolute(angle, 100); 
+// }
 
 /**
  * Tilt to a specific angle
@@ -296,7 +299,8 @@ float Robot::getHangPosition()
 // Returns position of clamp in degrees
 float Robot::getClampPosition()
 {
-    return clampMotor.get_position(0);
+    //return clampMotor.get_position(0);
+    return clampPiston.is_extended() ? 1 : 0;
 }
 
 float Robot::getTiltPosition()

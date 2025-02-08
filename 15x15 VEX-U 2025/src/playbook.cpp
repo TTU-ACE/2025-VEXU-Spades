@@ -24,7 +24,8 @@ void blueAuto1() {
     
     // 2) Grab stake
     rob.chassis.waitUntilDone();
-    rob.lowerClamp(false, 1000);
+    //rob.lowerClamp(false, 1000);  // Can't do async on pneumatics without sensor
+    rob.lowerClamp();
     pros::delay(250);
 
     // Place pre-loaded ring and move to first stack
@@ -59,7 +60,8 @@ void redAuto1() {
     
     // 2) Grab stake
     rob.chassis.waitUntilDone();
-    rob.lowerClamp(false, 1000); 
+    //rob.lowerClamp(false, 1000); 
+    rob.lowerClamp();
     pros::delay(250);
 
     // Place pre-loaded ring and move to first stack

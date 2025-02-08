@@ -36,7 +36,8 @@ void initialize() {
 void disabled() {
     initialized_subsystems = false;
     // RELEASE SUBSYSTEMS
-    rob.clampMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    //rob.clampMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+    rob.clampPiston.retract();
     rob.tiltMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     rob.lbLeftMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
     rob.lbRightMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
@@ -144,7 +145,7 @@ void opcontrol() {
 
         float hangPos = rob.getHangPosition();
         float clampPos = rob.getClampPosition();
-        sprintf(msg, "Clamp (deg): %0.2f, Hang (deg): %0.2f", clampPos, hangPos);
+        sprintf(msg, "Clamp (ext?): %0.2f, Hang (deg): %0.2f", clampPos, hangPos);
         debugln(msg, 3);  // On line 3
 
         float tiltPos = rob.getTiltPosition();
